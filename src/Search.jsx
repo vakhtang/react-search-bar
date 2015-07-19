@@ -111,7 +111,8 @@ Search.Suggestions = React.createClass({
     }
   },
   propTypes: {
-    matches: React.PropTypes.array
+    matches: React.PropTypes.array,
+    highlightedItem: React.PropTypes.number
   },
   render() {
     var matches = this.props.matches.map((match, index) =>

@@ -11,7 +11,7 @@ const suggestions = [
 let onChange = (input) => {
   if (!input) return [];
   return suggestions.filter((suggestion) =>
-    suggestion.match(new RegExp('^' + input, 'i'))
+    suggestion.match(new RegExp('^' + input.replace(/\W/g, ''), 'i'))
   );
 };
 
