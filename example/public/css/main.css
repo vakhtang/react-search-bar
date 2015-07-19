@@ -44,7 +44,6 @@ input {
 .search-suggestions {
   border: 1px solid #e1e1e1;
   box-sizing: border-box;
-
   list-style: none;
   padding: 0;
   margin: 0;
@@ -56,6 +55,7 @@ input {
   padding: 8px 10px;
 }
 
-.search-suggestions li:hover {
+.search-suggestions li:hover,
+.search-suggestions .highlighted {
   background: #fafafa;
 }

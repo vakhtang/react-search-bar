@@ -1,4 +1,9 @@
-import React from 'react'
+import React from 'react/addons';
+
+const keyCodes = {
+  UP: 38,
+  DOWN: 40
+};
 
 var Search = React.createClass({
   getDefaultProps() {
@@ -9,7 +14,8 @@ var Search = React.createClass({
   },
   getInitialState() {
     return {
-      matches: []
+      matches: [],
+      highlightedItem: -1
     }
   },
   propTypes: {
@@ -17,19 +23,40 @@ var Search = React.createClass({
     autocompleteDelay: React.PropTypes.number
   },
   componentDidMount() {
-    if (this.props.autoFocus) {
-      React.findDOMNode(this.refs.searchInput).focus();
-    }
     this._searchInput = React.findDOMNode(this.refs.searchInput);
+    if (this.props.autoFocus) {
+      this._searchInput.focus();
+    }
   },
   getSearchInput() {
     return this._searchInput.value;
+  },
+  handleKeyDown(e) {
+    var highlightedItem = this.state.highlightedItem;
+
+    if ((e.which == keyCodes.UP || e.which == keyCodes.DOWN)
+        && this.state.matches.length) {
+      e.preventDefault();
+
+      if (e.which == keyCodes.UP) {
+        if (highlightedItem <= 0) return;
+        --highlightedItem;
+      }
+      if (e.which == keyCodes.DOWN) {
+        if (highlightedItem >= this.state.matches.length - 1) return;
+        ++highlightedItem;
+      }
+
+      this._searchInput.value = this.state.matches[highlightedItem];
+      this.setState({highlightedItem: highlightedItem});
+    }
   },
   handleChange() {
     clearTimeout(this._timerId);
     this._timerId = setTimeout(() => {
       this.setState({
-        matches: this.props.onChange(this.getSearchInput())
+        matches: this.props.onChange(this.getSearchInput()),
+        highlightedItem: -1
       });
     }, this.props.autocompleteDelay);
   },
@@ -57,7 +84,8 @@ var Search = React.createClass({
               autoComplete="off"
               ref="searchInput"
               placeholder={this.props.placeholder}
-              onChange={this.handleChange} />
+              onChange={this.handleChange}
+              onKeyDown={this.handleKeyDown} />
             <input
               className="search-submit"
               type="submit"
@@ -67,6 +95,7 @@ var Search = React.createClass({
         {this.state.matches.length
            ? <Search.Suggestions 
                matches={this.state.matches}
+               highlightedItem={this.state.highlightedItem}
                onSelection={this.fillInSuggestion} />
            : null}
       </div>
@@ -77,7 +106,8 @@ var Search = React.createClass({
 Search.Suggestions = React.createClass({
   getDefaultProps() {
     return {
-      matches: []
+      matches: [],
+      highlightedItem: -1
     }
   },
   propTypes: {
@@ -85,7 +115,12 @@ Search.Suggestions = React.createClass({
   },
   render() {
     var matches = this.props.matches.map((match, index) =>
-      <li key={index} onClick={this.props.onSelection.bind(null, match)}>
+      <li
+        className={React.addons.classSet({
+          'highlighted': this.props.highlightedItem == index
+        })}
+        key={index}
+        onClick={this.props.onSelection.bind(null, match)}>
         {match}
       </li>
     );

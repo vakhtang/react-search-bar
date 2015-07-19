@@ -1,4 +1,4 @@
-# react-searchbar
+# react-search-bar
 
 A search bar with autocomplete, built in React.
 

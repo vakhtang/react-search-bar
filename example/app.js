@@ -1,5 +1,5 @@
-var React = require('react');
-var Search = require('../src/Search.jsx');
+import React from 'react';
+import Search from '../src/Search.jsx';
 
 const suggestions = [
   'imac',
@@ -22,7 +22,7 @@ let onSearch = (input, e) => {
 
 React.render(
   <Search
-    placeholder="Enter search"
+    placeholder="type 'i'"
     onChange={onChange}
     onSearch={onSearch} />, 
   document.getElementById('root')
