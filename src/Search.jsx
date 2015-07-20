@@ -34,8 +34,8 @@ var Search = React.createClass({
   handleKeyDown(e) {
     var highlightedItem = this.state.highlightedItem;
 
-    if ((e.which == keyCodes.UP || e.which == keyCodes.DOWN)
-        && this.state.matches.length) {
+    if ((e.which == keyCodes.UP || e.which == keyCodes.DOWN) &&
+        this.state.matches.length) {
       e.preventDefault();
 
       if (e.which == keyCodes.UP) {
