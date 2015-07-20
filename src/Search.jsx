@@ -43,7 +43,7 @@ var Search = React.createClass({
         --highlightedItem;
       }
       if (e.which == keyCodes.DOWN) {
-        if (highlightedItem >= this.state.matches.length - 1) return;
+        if (highlightedItem == this.state.matches.length - 1) return;
         ++highlightedItem;
       }
 
@@ -92,12 +92,11 @@ var Search = React.createClass({
               onClick={this.search} />
           </form>
         </div>
-        {this.state.matches.length
-           ? <Search.Suggestions 
-               matches={this.state.matches}
-               highlightedItem={this.state.highlightedItem}
-               onSelection={this.fillInSuggestion} />
-           : null}
+        {!!this.state.matches.length &&
+          <Search.Suggestions
+            matches={this.state.matches}
+            highlightedItem={this.state.highlightedItem}
+            onSelection={this.fillInSuggestion} />}
       </div>
     );
   }
@@ -118,7 +117,7 @@ Search.Suggestions = React.createClass({
     var matches = this.props.matches.map((match, index) =>
       <li
         className={React.addons.classSet({
-          'highlighted': this.props.highlightedItem == index
+          highlighted: this.props.highlightedItem == index
         })}
         key={index}
         onClick={this.props.onSelection.bind(null, match)}>
