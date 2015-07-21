@@ -1,5 +1,5 @@
 import React from 'react';
-import Search from '../src/Search.jsx';
+import SearchBar from '../src/SearchBar.jsx';
 
 const suggestions = [
   'imac',
@@ -21,7 +21,7 @@ let onSearch = (input, e) => {
 };
 
 React.render(
-  <Search
+  <SearchBar
     placeholder="type 'i'"
     onChange={onChange}
     onSearch={onSearch} />, 

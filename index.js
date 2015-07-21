@@ -1,1 +1,1 @@
-module.exports = require('./lib/Search.js');
+module.exports = require('./lib/SearchBar.js');

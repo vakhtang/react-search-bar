@@ -5,7 +5,7 @@ const keyCodes = {
   DOWN: 40
 };
 
-var Search = React.createClass({
+var SearchBar = React.createClass({
   getDefaultProps() {
     return {
       autoFocus: true,
@@ -93,7 +93,7 @@ var Search = React.createClass({
           </form>
         </div>
         {!!this.state.matches.length &&
-          <Search.Suggestions
+          <SearchBar.Suggestions
             matches={this.state.matches}
             highlightedItem={this.state.highlightedItem}
             onSelection={this.fillInSuggestion} />}
@@ -102,7 +102,7 @@ var Search = React.createClass({
   }
 });
 
-Search.Suggestions = React.createClass({
+SearchBar.Suggestions = React.createClass({
   getDefaultProps() {
     return {
       matches: [],
@@ -128,4 +128,4 @@ Search.Suggestions = React.createClass({
   }
 });
 
-export default Search;
+export default SearchBar;

@@ -1,5 +1,5 @@
 {
-  "name": "react-search",
+  "name": "react-search-bar",
   "version": "1.0.0",
   "description": "search bar with suggestions",
   "main": "index.js",
