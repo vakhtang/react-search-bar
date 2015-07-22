@@ -58,7 +58,7 @@ let SearchBar = React.createClass({
         matches: this.props.onChange(this.getSearchInput()),
         highlightedItem: -1
       });
-    }, this.props.autocompleteDelay);
+    }, this.props.autosuggestDelay);
   },
   search(e) {
     if (!this.props.onSearch) return;
