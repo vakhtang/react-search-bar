@@ -1,14 +1,19 @@
 {
   "name": "react-search-bar",
   "version": "1.0.0",
-  "description": "search bar with suggestions",
+  "description": "search bar with autosuggest",
   "main": "index.js",
   "scripts": {
-    "build": "webpack && babel src --out-dir lib",
-    "start": "webpack-dev-server"
+    "build": "babel src --out-dir lib",
+    "demo": "cd demo && webpack-dev-server"
   },
   "author": "vakhtang",
   "license": "MIT",
+  "keywords": [
+    "search",
+    "autosuggest",
+    "react"
+  ],
   "devDependencies": {
     "babel": "^5.6.23",
     "babel-core": "^5.6.20",

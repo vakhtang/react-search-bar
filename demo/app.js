@@ -11,11 +11,11 @@ const suggestions = [
 let onChange = (input) => {
   if (!input) return [];
   return suggestions.filter((suggestion) =>
-    suggestion.match(new RegExp('^' + input.replace(/\W/g, ''), 'i'))
+    suggestion.match(new RegExp('^' + input.replace(/\W\s/g, ''), 'i'))
   );
 };
 
-let onSearch = (input, e) => {
+let onSearch = (input) => {
   if (!input) return;
   console.info(`Searching "${input}"`);
 };

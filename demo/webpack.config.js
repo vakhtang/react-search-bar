@@ -2,12 +2,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: ['webpack/hot/dev-server', './example/app.js']
-  },
-  output: {
-    path: './example/public/js',
-    filename: 'bundle.js',
-    publicPath: '/js/'
+    app: ['webpack/hot/dev-server', './app.js']
   },
   module: {
     loaders: [
@@ -19,8 +14,9 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: './example/public',
+    contentBase: './public',
     hot: true,
+    noInfo: true,
     port: 5000
   },
   plugins: [new webpack.HotModuleReplacementPlugin()]

@@ -5,11 +5,11 @@ const keyCodes = {
   DOWN: 40
 };
 
-var SearchBar = React.createClass({
+let SearchBar = React.createClass({
   getDefaultProps() {
     return {
       autoFocus: true,
-      autocompleteDelay: 250
+      autosuggestDelay: 250
     }
   },
   getInitialState() {
@@ -20,7 +20,7 @@ var SearchBar = React.createClass({
   },
   propTypes: {
     autoFocus: React.PropTypes.bool,
-    autocompleteDelay: React.PropTypes.number
+    autosuggestDelay: React.PropTypes.number
   },
   componentDidMount() {
     this._searchInput = React.findDOMNode(this.refs.searchInput);
@@ -29,10 +29,10 @@ var SearchBar = React.createClass({
     }
   },
   getSearchInput() {
-    return this._searchInput.value;
+    return this._searchInput.value.trim();
   },
   handleKeyDown(e) {
-    var highlightedItem = this.state.highlightedItem;
+    let highlightedItem = this.state.highlightedItem;
 
     if ((e.which == keyCodes.UP || e.which == keyCodes.DOWN) &&
         this.state.matches.length) {
@@ -65,7 +65,7 @@ var SearchBar = React.createClass({
     e.preventDefault();
     clearTimeout(this._timerId);
     this.setState({matches: []});
-    this.props.onSearch(this.getSearchInput(), e);
+    this.props.onSearch(this.getSearchInput());
   },
   fillInSuggestion(value) {
     this.setState({matches: []});
@@ -114,7 +114,7 @@ SearchBar.Suggestions = React.createClass({
     highlightedItem: React.PropTypes.number
   },
   render() {
-    var matches = this.props.matches.map((match, index) =>
+    let matches = this.props.matches.map((match, index) =>
       <li
         className={React.addons.classSet({
           highlighted: this.props.highlightedItem == index
