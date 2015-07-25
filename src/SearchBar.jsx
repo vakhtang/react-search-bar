@@ -1,11 +1,14 @@
-import React from 'react/addons';
+import 'babel/polyfill';
+import React from 'react';
+import Suggestions from './Suggestions.jsx'
 
 const keyCodes = {
   UP: 38,
   DOWN: 40
 };
 
-let SearchBar = React.createClass({
+export default React.createClass({
+  displayName: 'SearchBar',
   getDefaultProps() {
     return {
       autoFocus: true,
@@ -93,7 +96,7 @@ let SearchBar = React.createClass({
           </form>
         </div>
         {!!this.state.matches.length &&
-          <SearchBar.Suggestions
+          <Suggestions
             matches={this.state.matches}
             highlightedItem={this.state.highlightedItem}
             onSelection={this.fillInSuggestion} />}
@@ -101,31 +104,3 @@ let SearchBar = React.createClass({
     );
   }
 });
-
-SearchBar.Suggestions = React.createClass({
-  getDefaultProps() {
-    return {
-      matches: [],
-      highlightedItem: -1
-    }
-  },
-  propTypes: {
-    matches: React.PropTypes.array,
-    highlightedItem: React.PropTypes.number
-  },
-  render() {
-    let matches = this.props.matches.map((match, index) =>
-      <li
-        className={React.addons.classSet({
-          highlighted: this.props.highlightedItem == index
-        })}
-        key={index}
-        onClick={this.props.onSelection.bind(null, match)}>
-        {match}
-      </li>
-    );
-    return <ul className="search-suggestions">{matches}</ul>;
-  }
-});
-
-export default SearchBar;
