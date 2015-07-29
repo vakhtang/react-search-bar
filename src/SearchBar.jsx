@@ -59,6 +59,10 @@ export default React.createClass({
       highlightedItem: -1
     });
   },
+  fillInSuggestion(suggestion) {
+    this.setState({value: suggestion});
+    this.search(suggestion);
+  },
   handleChange(e) {
     clearTimeout(this._timerId);
     let input = e.target.value;
@@ -80,7 +84,11 @@ export default React.createClass({
   },
   search(value) {
     clearTimeout(this._timerId);
-    this.setState(this.getInitialState());
+    let {suggestions, highlightedItem} = this.getInitialState();
+    this.setState({
+      suggestions: suggestions,
+      highlightedItem: highlightedItem
+    });
     this.props.onSubmit(value);
   },
   render() {
@@ -107,7 +115,7 @@ export default React.createClass({
           <Suggestions
             suggestions={this.state.suggestions}
             highlightedItem={this.state.highlightedItem}
-            onSelection={this.search} />}
+            onSelection={this.fillInSuggestion} />}
       </div>
     );
   }
