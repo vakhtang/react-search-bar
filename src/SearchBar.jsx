@@ -17,7 +17,8 @@ export default React.createClass({
   },
   getInitialState() {
     return {
-      matches: [],
+      value: '',
+      suggestions: [],
       highlightedItem: -1
     }
   },
@@ -26,19 +27,15 @@ export default React.createClass({
     autosuggestDelay: React.PropTypes.number
   },
   componentDidMount() {
-    this._searchInput = React.findDOMNode(this.refs.searchInput);
     if (this.props.autoFocus) {
-      this._searchInput.focus();
+      React.findDOMNode(this.refs.value).focus();
     }
-  },
-  getSearchInput() {
-    return this._searchInput.value.trim();
   },
   handleKeyDown(e) {
     let highlightedItem = this.state.highlightedItem;
 
     if ((e.which == keyCodes.UP || e.which == keyCodes.DOWN) &&
-        this.state.matches.length) {
+        this.state.suggestions.length) {
       e.preventDefault();
 
       if (e.which == keyCodes.UP) {
@@ -46,60 +43,71 @@ export default React.createClass({
         --highlightedItem;
       }
       if (e.which == keyCodes.DOWN) {
-        if (highlightedItem == this.state.matches.length - 1) return;
+        if (highlightedItem == this.state.suggestions.length - 1) return;
         ++highlightedItem;
       }
 
-      this._searchInput.value = this.state.matches[highlightedItem];
-      this.setState({highlightedItem: highlightedItem});
+      this.setState({
+        highlightedItem: highlightedItem, 
+        value: this.state.suggestions[highlightedItem]
+      });
     }
   },
-  handleChange() {
+  displaySuggestions(suggestions) {
+    this.setState({
+      suggestions: suggestions,
+      highlightedItem: -1
+    });
+  },
+  handleChange(e) {
     clearTimeout(this._timerId);
+    let input = e.target.value;
+    if (!input) return this.setState(this.getInitialState());
+    this.setState({value: input});
     this._timerId = setTimeout(() => {
-      this.setState({
-        matches: this.props.onChange(this.getSearchInput()),
-        highlightedItem: -1
+      new Promise((resolve, reject) => {
+        this.props.onChange(input, resolve);
+      }).then((suggestions) => {
+        if (!this.state.value) return;
+        this.displaySuggestions(suggestions);
       });
     }, this.props.autosuggestDelay);
   },
-  search(e) {
-    if (!this.props.onSearch) return;
+  submit(e) {
     e.preventDefault();
-    clearTimeout(this._timerId);
-    this.setState({matches: []});
-    this.props.onSearch(this.getSearchInput());
+    if (!this.state.value) return;
+    this.search(this.state.value);
   },
-  fillInSuggestion(value) {
-    this.setState({matches: []});
-    this._searchInput.value = value;
+  search(value) {
+    clearTimeout(this._timerId);
+    this.setState(this.getInitialState());
+    this.props.onSubmit(value);
   },
   render() {
     return (
       <div className="search-wrapper">
         <div className="search-bar">
-          <form action={this.props.formAction}>
-            <input
-              className="search-input"
-              name="search"
-              type="text"
-              maxLength="100"
-              autoComplete="off"
-              ref="searchInput"
-              placeholder={this.props.placeholder}
-              onChange={this.handleChange}
-              onKeyDown={this.handleKeyDown} />
-            <input
-              className="search-submit"
-              type="submit"
-              onClick={this.search} />
-          </form>
+          <input
+            className="search-input"
+            name="search"
+            type="text"
+            maxLength="100"
+            autoComplete="off"
+            ref="value"
+            value={this.state.value}
+            placeholder={this.props.placeholder}
+            onChange={this.handleChange}
+            onKeyDown={this.handleKeyDown} />
+          <input
+            className="search-submit"
+            type="submit"
+            onClick={this.props.onSubmit && this.submit} />
         </div>
-        {!!this.state.matches.length &&
+        {!!this.state.suggestions.length &&
           <Suggestions
-            matches={this.state.matches}
+            suggestions={this.state.suggestions}
             highlightedItem={this.state.highlightedItem}
-            onSelection={this.fillInSuggestion} />}
+            onSelection={this.search} />}
       </div>
     );
   }

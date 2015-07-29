@@ -4,16 +4,16 @@ export default React.createClass({
   displayName: 'Suggestions',
   getDefaultProps() {
     return {
-      matches: [],
+      suggestions: [],
       highlightedItem: -1
     }
   },
   propTypes: {
-    matches: React.PropTypes.array,
+    suggestions: React.PropTypes.array,
     highlightedItem: React.PropTypes.number
   },
   render() {
-    let matches = this.props.matches.map((match, index) =>
+    let suggestions = this.props.suggestions.map((match, index) =>
       <li
         className={React.addons.classSet({
           highlighted: this.props.highlightedItem == index
@@ -23,6 +23,6 @@ export default React.createClass({
         {match}
       </li>
     );
-    return <ul className="search-suggestions">{matches}</ul>;
+    return <ul className="search-suggestions">{suggestions}</ul>;
   }
 });

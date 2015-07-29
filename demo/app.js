@@ -8,22 +8,29 @@ const suggestions = [
   'iphone 6'
 ];
 
-let onChange = (input) => {
-  if (!input) return [];
-  return suggestions.filter((suggestion) =>
-    suggestion.match(new RegExp('^' + input.replace(/\W\s/g, ''), 'i'))
-  );
-};
+let App = React.createClass({
+  onChange(input, resolve) {
+    // Simulate AJAX request
+    setTimeout(() => {
+      resolve(suggestions.filter((suggestion) =>
+        suggestion.match(new RegExp('^' + input.replace(/\W\s/g, ''), 'i'))
+      ));
+    }, 200);
+  },
+  onSubmit(input) {
+    if (!input) return;
+    console.info(`Searching "${input}"`);
+  },
+  render() {
+    return (
+      <form>
+        <SearchBar
+          placeholder="type 'i'"
+          onChange={this.onChange}
+          onSubmit={this.onSubmit} />
+      </form>
+    );
+  }
+});
 
-let onSearch = (input) => {
-  if (!input) return;
-  console.info(`Searching "${input}"`);
-};
-
-React.render(
-  <SearchBar
-    placeholder="type 'i'"
-    onChange={onChange}
-    onSearch={onSearch} />, 
-  document.getElementById('root')
-);
+React.render(<App />, document.getElementById('root'));
