@@ -94,10 +94,10 @@ export default React.createClass({
   },
   render() {
     return (
-      <div className="search-wrapper">
-        <div className="search-bar">
+      <div className="search-bar-wrapper">
+        <div className="search-bar-field">
           <input
-            className="search-input"
+            className="search-bar-input"
             name={this.props.inputName}
             type="text"
             maxLength="100"
@@ -108,7 +108,7 @@ export default React.createClass({
             onChange={this.handleChange}
             onKeyDown={this.handleKeyDown} />
           <input
-            className="search-submit"
+            className="search-bar-submit"
             type="submit"
             onClick={this.props.onSubmit && this.submit} />
         </div>

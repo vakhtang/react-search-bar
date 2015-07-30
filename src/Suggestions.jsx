@@ -23,6 +23,6 @@ export default React.createClass({
         {match}
       </li>
     );
-    return <ul className="search-suggestions">{suggestions}</ul>;
+    return <ul className="search-bar-suggestions">{suggestions}</ul>;
   }
 });
