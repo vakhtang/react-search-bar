@@ -12,7 +12,8 @@ export default React.createClass({
   getDefaultProps() {
     return {
       autoFocus: true,
-      autosuggestDelay: 250
+      autosuggestDelay: 250,
+      inputName: 'query'
     }
   },
   getInitialState() {
@@ -97,7 +98,7 @@ export default React.createClass({
         <div className="search-bar">
           <input
             className="search-input"
-            name="search"
+            name={this.props.inputName}
             type="text"
             maxLength="100"
             autoComplete="off"
