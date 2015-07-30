@@ -81,7 +81,7 @@ export default React.createClass({
   submit(e) {
     e.preventDefault();
     if (!this.state.value) return;
-    this.search(this.state.value);
+    this.search(this.state.value.trim());
   },
   search(value) {
     clearTimeout(this._timerId);
