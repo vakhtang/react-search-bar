@@ -2,26 +2,35 @@
   "name": "react-search-bar",
   "version": "1.0.0",
   "description": "search bar with autosuggest",
+  "keywords": [
+    "search",
+    "autosuggest",
+    "autocomplete",
+    "react",
+  ],
+  "homepage": "https://github.com/vakhtang/react-search-bar",
+  "bugs": {
+    "url": "https://github.com/vakhtang/react-search-bar/issues"
+  },
+  "license": "MIT",
+  "author": "vakhtang",
   "main": "index.js",
   "scripts": {
     "build": "babel src --out-dir lib",
     "demo": "cd demo && webpack-dev-server"
   },
-  "author": "vakhtang",
-  "license": "MIT",
-  "keywords": [
-    "search",
-    "autosuggest",
-    "react"
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vakhtang/react-search-bar"
+  },
   "devDependencies": {
-    "babel": "^5.6.23",
-    "babel-core": "^5.6.20",
     "babel-loader": "^5.3.1",
     "webpack": "^1.10.1",
     "webpack-dev-server": "^1.10.1"
   },
-  "dependencies": {
+  "peerDependencies": {
+    "babel": "^5.6.23",
+    "babel-core": "^5.6.20",
     "react": "^0.13.3"
   }
 }
