@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchBar from '../src/SearchBar.jsx';
+import SearchBar from '../src/SearchBar';
 
 const suggestions = [
   'imac',

@@ -1,6 +1,6 @@
 import 'babel/polyfill';
 import React from 'react';
-import Suggestions from './Suggestions.jsx'
+import Suggestions from './Suggestions'
 
 const keyCodes = {
   UP: 38,

@@ -19,5 +19,8 @@ module.exports = {
     noInfo: true,
     port: 5000
   },
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   plugins: [new webpack.HotModuleReplacementPlugin()]
 };
