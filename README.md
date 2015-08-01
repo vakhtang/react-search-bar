@@ -23,5 +23,8 @@ Then visit [http://localhost:5000](http://localhost:5000).
 
 View the demo for an example of how to use the component. You must supply a 
 callback to the `onChange` event handler to populate suggestions. A callback 
-to the `onSubmit` event handler is optional. If you don't provide one, the 
-search field will function like a regular input.
+to the `onSubmit` event handler is optional.
+
+## License
+
+MIT
