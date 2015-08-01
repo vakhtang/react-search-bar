@@ -2,6 +2,12 @@
 
 A search bar with autosuggest, built in React.
 
+## Installation
+
+```
+npm install react-search-bar --save
+```
+
 ## Getting Started
 
 Install dependencies and run the demo:
@@ -12,3 +18,10 @@ npm run demo
 ```
 
 Then visit [http://localhost:5000](http://localhost:5000).
+
+## Usage
+
+View the demo for an example of how to use the component. You must supply a 
+callback to the `onChange` event handler to populate suggestions. A callback 
+to the `onSubmit` event handler is optional. If you don't provide one, the 
+search field will function like a regular input.
