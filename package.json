@@ -1,12 +1,13 @@
 {
   "name": "react-search-bar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "search bar with autosuggest",
   "keywords": [
     "search",
     "autosuggest",
     "autocomplete",
-    "react"
+    "react",
+    "react-component"
   ],
   "homepage": "https://github.com/vakhtang/react-search-bar",
   "bugs": {
