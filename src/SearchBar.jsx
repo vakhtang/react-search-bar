@@ -25,7 +25,8 @@ export default React.createClass({
   },
   propTypes: {
     autoFocus: React.PropTypes.bool,
-    autosuggestDelay: React.PropTypes.number
+    autosuggestDelay: React.PropTypes.number,
+    inputName: React.PropTypes.string
   },
   componentDidMount() {
     if (this.props.autoFocus) {
@@ -69,6 +70,7 @@ export default React.createClass({
     let input = e.target.value;
     if (!input) return this.setState(this.getInitialState());
     this.setState({value: input});
+
     this._timerId = setTimeout(() => {
       new Promise((resolve, reject) => {
         this.props.onChange(input, resolve);
