@@ -10,7 +10,7 @@ npm install react-search-bar --save
 
 ## Getting Started
 
-Install dependencies and run the demo:
+Install dependencies and run the demo server:
 
 ```
 npm install
