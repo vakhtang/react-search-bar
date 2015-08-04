@@ -36,24 +36,22 @@ export default React.createClass({
   handleKeyDown(e) {
     let highlightedItem = this.state.highlightedItem;
 
-    if ((e.which == keyCodes.UP || e.which == keyCodes.DOWN) &&
-        this.state.suggestions.length) {
-      e.preventDefault();
+    if (e.which != keyCodes.UP && e.which != keyCodes.DOWN) return;
+    e.preventDefault();
 
-      if (e.which == keyCodes.UP) {
-        if (highlightedItem <= 0) return;
-        --highlightedItem;
-      }
-      if (e.which == keyCodes.DOWN) {
-        if (highlightedItem == this.state.suggestions.length - 1) return;
-        ++highlightedItem;
-      }
-
-      this.setState({
-        highlightedItem: highlightedItem, 
-        value: this.state.suggestions[highlightedItem]
-      });
+    if (e.which == keyCodes.UP) {
+      if (highlightedItem <= 0) return;
+      --highlightedItem;
     }
+    if (e.which == keyCodes.DOWN) {
+      if (highlightedItem == this.state.suggestions.length - 1) return;
+      ++highlightedItem;
+    }
+
+    this.setState({
+      highlightedItem: highlightedItem, 
+      value: this.state.suggestions[highlightedItem]
+    });
   },
   displaySuggestions(suggestions) {
     this.setState({
