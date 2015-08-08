@@ -1,8 +1,8 @@
 import 'babel/polyfill';
 import React from 'react';
-import Suggestions from './Suggestions'
+import Suggestions from './Suggestions';
 
-const keyCodes = {
+const KEY_CODES = {
   UP: 38,
   DOWN: 40
 };
@@ -34,16 +34,15 @@ export default React.createClass({
     }
   },
   handleKeyDown(e) {
+    if (e.which != KEY_CODES.UP && e.which != KEY_CODES.DOWN) return;
+    e.preventDefault();
     let highlightedItem = this.state.highlightedItem;
 
-    if (e.which != keyCodes.UP && e.which != keyCodes.DOWN) return;
-    e.preventDefault();
-
-    if (e.which == keyCodes.UP) {
+    if (e.which == KEY_CODES.UP) {
       if (highlightedItem <= 0) return;
       --highlightedItem;
     }
-    if (e.which == keyCodes.DOWN) {
+    if (e.which == KEY_CODES.DOWN) {
       if (highlightedItem == this.state.suggestions.length - 1) return;
       ++highlightedItem;
     }
