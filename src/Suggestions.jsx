@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import classNames from 'classnames';
 
 export default React.createClass({
   displayName: 'Suggestions',
@@ -15,7 +16,7 @@ export default React.createClass({
   render() {
     let suggestions = this.props.suggestions.map((match, index) =>
       <li
-        className={React.addons.classSet({
+        className={classNames({
           highlighted: this.props.highlightedItem == index
         })}
         key={index}

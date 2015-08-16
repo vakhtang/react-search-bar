@@ -41,8 +41,7 @@ export default React.createClass({
     if (e.which == KEY_CODES.UP) {
       if (highlightedItem <= 0) return;
       --highlightedItem;
-    }
-    if (e.which == KEY_CODES.DOWN) {
+    } else {
       if (highlightedItem == this.state.suggestions.length - 1) return;
       ++highlightedItem;
     }
