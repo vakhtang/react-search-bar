@@ -1,4 +1,4 @@
-import 'babel/polyfill';
+import 'es6-promise';
 import React from 'react';
 import Suggestions from './Suggestions';
 

@@ -8,16 +8,18 @@ A search bar with autosuggest, built in React.
 npm install react-search-bar --save
 ```
 
-## Getting Started
+## Demo
 
-Install dependencies and run the demo server:
+View the [demo online](https://vakhtang.github.io/react-search-bar).
+
+Alternatively, run it locally:
 
 ```
 npm install
 npm run demo
 ```
 
-Then visit [http://localhost:5000](http://localhost:5000).
+Then visit [localhost:5000](localhost:5000).
 
 ## Usage
 
