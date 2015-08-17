@@ -19,7 +19,7 @@ npm install
 npm run demo
 ```
 
-Then visit [localhost:5000](localhost:5000).
+Then visit [localhost:5000](http://localhost:5000).
 
 ## Usage
 
