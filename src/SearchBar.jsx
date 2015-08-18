@@ -47,7 +47,7 @@ export default React.createClass({
     }
 
     this.setState({
-      highlightedItem: highlightedItem, 
+      highlightedItem: highlightedItem,
       value: this.state.suggestions[highlightedItem]
     });
   },
@@ -100,6 +100,7 @@ export default React.createClass({
             type="text"
             maxLength="100"
             autoComplete="off"
+            autoCorrect="off"
             ref="value"
             value={this.state.value}
             placeholder={this.props.placeholder}

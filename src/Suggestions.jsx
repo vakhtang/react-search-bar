@@ -20,7 +20,8 @@ export default React.createClass({
           highlighted: this.props.highlightedItem == index
         })}
         key={index}
-        onClick={this.props.onSelection.bind(null, match)}>
+        onClick={this.props.onSelection.bind(null, match)}
+        onTouchEnd={this.props.onSelection.bind(null, match)}>
         {match}
       </li>
     );
