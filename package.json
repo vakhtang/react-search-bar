@@ -22,7 +22,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src --out-dir lib",
-    "demo": "cd demo && webpack-dev-server --config webpack.dev.config.js"
+    "demo": "cd demo && webpack-dev-server --config webpack.config.dev.js"
   },
   "repository": {
     "type": "git",
