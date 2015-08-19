@@ -13,6 +13,14 @@ export default React.createClass({
     suggestions: React.PropTypes.array,
     highlightedItem: React.PropTypes.number
   },
+  handleTouchEnd(match, e) {
+    if (this._touchHasChanged) {
+      this._touchHasChanged = false;
+      e.preventDefault();
+    } else {
+      this.props.onSelection(match);
+    }
+  },
   render() {
     let suggestions = this.props.suggestions.map((match, index) =>
       <li
@@ -20,8 +28,9 @@ export default React.createClass({
           highlighted: this.props.highlightedItem == index
         })}
         key={index}
-        onClick={this.props.onSelection.bind(null, match)}
-        onTouchEnd={this.props.onSelection.bind(null, match)}>
+        onClick={() => this.props.onSelection(match)}
+        onTouchMove={() => this._touchHasChanged = true}
+        onTouchEnd={() => this.handleTouchEnd(match)}>
         {match}
       </li>
     );
