@@ -9,8 +9,8 @@ input {
 }
 
 .search-bar-wrapper {
-  min-width: 320px;
-  width: 50%;
+  min-width: 240px;
+  width: 40%;
 }
 
 .search-bar-field {
