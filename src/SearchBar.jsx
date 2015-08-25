@@ -9,6 +9,11 @@ const KEY_CODES = {
 
 export default React.createClass({
   displayName: 'SearchBar',
+  propTypes: {
+    autoFocus: React.PropTypes.bool,
+    autosuggestDelay: React.PropTypes.number,
+    inputName: React.PropTypes.string
+  },
   getDefaultProps() {
     return {
       autoFocus: true,
@@ -23,15 +28,28 @@ export default React.createClass({
       highlightedItem: -1
     }
   },
-  propTypes: {
-    autoFocus: React.PropTypes.bool,
-    autosuggestDelay: React.PropTypes.number,
-    inputName: React.PropTypes.string
+  componentWillMount() {
+    React.initializeTouchEvents(true);
   },
   componentDidMount() {
     if (this.props.autoFocus) {
       React.findDOMNode(this.refs.value).focus();
     }
+  },
+  handleChange(e) {
+    clearTimeout(this._timerId);
+    let input = e.target.value;
+    if (!input) return this.setState(this.getInitialState());
+    this.setState({value: input});
+
+    this._timerId = setTimeout(() => {
+      new Promise((resolve, reject) => {
+        this.props.onChange(input, resolve);
+      }).then((suggestions) => {
+        if (!this.state.value) return;
+        this.displaySuggestions(suggestions);
+      });
+    }, this.props.autosuggestDelay);
   },
   handleKeyDown(e) {
     if (e.which != KEY_CODES.UP && e.which != KEY_CODES.DOWN) return;
@@ -60,21 +78,6 @@ export default React.createClass({
   fillInSuggestion(suggestion) {
     this.setState({value: suggestion});
     this.search(suggestion);
-  },
-  handleChange(e) {
-    clearTimeout(this._timerId);
-    let input = e.target.value;
-    if (!input) return this.setState(this.getInitialState());
-    this.setState({value: input});
-
-    this._timerId = setTimeout(() => {
-      new Promise((resolve, reject) => {
-        this.props.onChange(input, resolve);
-      }).then((suggestions) => {
-        if (!this.state.value) return;
-        this.displaySuggestions(suggestions);
-      });
-    }, this.props.autosuggestDelay);
   },
   submit(e) {
     e.preventDefault();

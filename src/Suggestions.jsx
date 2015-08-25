@@ -13,10 +13,10 @@ export default React.createClass({
     suggestions: React.PropTypes.array,
     highlightedItem: React.PropTypes.number
   },
-  _onTouchMove() {
+  handleTouchMove() {
     this._touchMoved = true;
   },
-  _onTouchEnd(match, e) {
+  handleTouchEnd(match, e) {
     if (this._touchMoved) {
       this._touchMoved = false;
       e.preventDefault();
@@ -32,8 +32,8 @@ export default React.createClass({
         })}
         key={index}
         onClick={() => this.props.onSelection(match)}
-        onTouchMove={this._onTouchMove}
-        onTouchEnd={(e) => this._onTouchEnd(match, e)}>
+        onTouchMove={this.handleTouchMove}
+        onTouchEnd={(e) => this.handleTouchEnd(match, e)}>
         {match}
       </li>
     );
