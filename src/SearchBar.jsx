@@ -102,6 +102,7 @@ export default React.createClass({
             name={this.props.inputName}
             type="text"
             maxLength="100"
+            autoCapitalize="none"
             autoComplete="off"
             autoCorrect="off"
             ref="value"
