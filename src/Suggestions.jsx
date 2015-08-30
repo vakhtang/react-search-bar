@@ -11,7 +11,8 @@ export default React.createClass({
   },
   propTypes: {
     suggestions: React.PropTypes.array,
-    highlightedItem: React.PropTypes.number
+    highlightedItem: React.PropTypes.number,
+    searchTerm: React.PropTypes.string
   },
   handleTouchMove() {
     this._touchMoved = true;
@@ -34,7 +35,7 @@ export default React.createClass({
         onClick={() => this.props.onSelection(match)}
         onTouchMove={this.handleTouchMove}
         onTouchEnd={(e) => this.handleTouchEnd(match, e)}>
-        {match}
+        <strong>{this.props.searchTerm}</strong>{match.substr(this.props.searchTerm.length)}
       </li>
     );
     return <ul className="search-bar-suggestions">{suggestions}</ul>;

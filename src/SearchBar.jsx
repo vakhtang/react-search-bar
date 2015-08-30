@@ -23,9 +23,10 @@ export default React.createClass({
   },
   getInitialState() {
     return {
-      value: '',
+      highlightedItem: -1,
+      searchTerm: '',
       suggestions: [],
-      highlightedItem: -1
+      value: ''
     }
   },
   componentWillMount() {
@@ -47,7 +48,11 @@ export default React.createClass({
         this.props.onChange(input, resolve);
       }).then((suggestions) => {
         if (!this.state.value) return;
-        this.displaySuggestions(suggestions);
+        this.setState({
+          searchTerm: input,
+          suggestions: suggestions,
+          highlightedItem: -1
+        });
       });
     }, this.props.autosuggestDelay);
   },
@@ -67,12 +72,6 @@ export default React.createClass({
     this.setState({
       highlightedItem: highlightedItem,
       value: this.state.suggestions[highlightedItem]
-    });
-  },
-  displaySuggestions(suggestions) {
-    this.setState({
-      suggestions: suggestions,
-      highlightedItem: -1
     });
   },
   fillInSuggestion(suggestion) {
@@ -117,6 +116,7 @@ export default React.createClass({
         </div>
         {!!this.state.suggestions.length &&
           <Suggestions
+            searchTerm={this.state.searchTerm}
             suggestions={this.state.suggestions}
             highlightedItem={this.state.highlightedItem}
             onSelection={this.fillInSuggestion} />}
