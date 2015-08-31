@@ -15,7 +15,7 @@ let App = React.createClass({
       resolve(suggestions.filter((suggestion) =>
         suggestion.match(new RegExp('^' + input.replace(/\W\s/g, ''), 'i'))
       ));
-    }, 200);
+    }, 25);
   },
   onSubmit(input) {
     if (!input) return;

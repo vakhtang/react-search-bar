@@ -3,27 +3,26 @@ import classNames from 'classnames';
 
 export default React.createClass({
   displayName: 'Suggestions',
+  propTypes: {
+    suggestions: React.PropTypes.array.required,
+    highlightedItem: React.PropTypes.number.required,
+    searchTerm: React.PropTypes.string.required
+  },
   getDefaultProps() {
     return {
-      suggestions: [],
-      highlightedItem: -1
-    }
-  },
-  propTypes: {
-    suggestions: React.PropTypes.array,
-    highlightedItem: React.PropTypes.number,
-    searchTerm: React.PropTypes.string
+      highlightedItem: -1,
+      searchTerm: '',
+      suggestions: []
+    };
   },
   handleTouchMove() {
     this._touchMoved = true;
   },
   handleTouchEnd(match, e) {
-    if (this._touchMoved) {
-      this._touchMoved = false;
-      e.preventDefault();
-    } else {
+    if (!this._touchMoved) {
       this.props.onSelection(match);
     }
+    this._touchMoved = false;
   },
   render() {
     let suggestions = this.props.suggestions.map((match, index) =>

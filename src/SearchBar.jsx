@@ -3,8 +3,8 @@ import React from 'react';
 import Suggestions from './Suggestions';
 
 const KEY_CODES = {
-  UP: 38,
-  DOWN: 40
+  up: 38,
+  down: 40
 };
 
 export default React.createClass({
@@ -19,7 +19,7 @@ export default React.createClass({
       autoFocus: true,
       autosuggestDelay: 250,
       inputName: 'query'
-    }
+    };
   },
   getInitialState() {
     return {
@@ -27,7 +27,7 @@ export default React.createClass({
       searchTerm: '',
       suggestions: [],
       value: ''
-    }
+    };
   },
   componentWillMount() {
     React.initializeTouchEvents(true);
@@ -44,7 +44,7 @@ export default React.createClass({
     this.setState({value: input});
 
     this._timerId = setTimeout(() => {
-      new Promise((resolve, reject) => {
+      new Promise((resolve) => {
         this.props.onChange(input, resolve);
       }).then((suggestions) => {
         if (!this.state.value) return;
@@ -57,21 +57,21 @@ export default React.createClass({
     }, this.props.autosuggestDelay);
   },
   handleKeyDown(e) {
-    if (e.which != KEY_CODES.UP && e.which != KEY_CODES.DOWN) return;
+    if (e.which != KEY_CODES.up && e.which != KEY_CODES.down) return;
     e.preventDefault();
-    let highlightedItem = this.state.highlightedItem;
+    let {highlightedItem, suggestions} = this.state;
 
-    if (e.which == KEY_CODES.UP) {
+    if (e.which == KEY_CODES.up) {
       if (highlightedItem <= 0) return;
       --highlightedItem;
-    } else {
-      if (highlightedItem == this.state.suggestions.length - 1) return;
+    } else if (e.which == KEY_CODES.down) {
+      if (highlightedItem == suggestions.length - 1) return;
       ++highlightedItem;
     }
 
     this.setState({
       highlightedItem: highlightedItem,
-      value: this.state.suggestions[highlightedItem]
+      value: suggestions[highlightedItem]
     });
   },
   fillInSuggestion(suggestion) {
