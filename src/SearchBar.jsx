@@ -58,9 +58,8 @@ export default React.createClass({
   },
   handleKeyDown(e) {
     let {highlightedItem: item, suggestions} = this.state;
-    if (e.which != KEY_CODES.up &&
-        e.which != KEY_CODES.down ||
-        suggestions.length == 0) return;
+    let validKeys = e.which == KEY_CODES.up || e.which == KEY_CODES.down;
+    if (!validKeys || suggestions.length == 0) return;
     e.preventDefault();
     let lastItem = suggestions.length - 1;
 
