@@ -57,24 +57,25 @@ export default React.createClass({
     }, this.props.autosuggestDelay);
   },
   handleKeyDown(e) {
-    if (e.which != KEY_CODES.up && e.which != KEY_CODES.down) return;
+    let {highlightedItem: item, suggestions} = this.state;
+    if (e.which != KEY_CODES.up &&
+        e.which != KEY_CODES.down ||
+        suggestions.length == 0) return;
     e.preventDefault();
-    let {highlightedItem, suggestions} = this.state;
+    let lastItem = suggestions.length - 1;
 
     if (e.which == KEY_CODES.up) {
-      if (highlightedItem <= 0) return;
-      --highlightedItem;
+      item = (item == 0 || item == -1) ? lastItem : item - 1;
     } else if (e.which == KEY_CODES.down) {
-      if (highlightedItem == suggestions.length - 1) return;
-      ++highlightedItem;
+      item = (item == lastItem) ? 0 : item + 1;
     }
 
     this.setState({
-      highlightedItem: highlightedItem,
-      value: suggestions[highlightedItem]
+      highlightedItem: item,
+      value: suggestions[item]
     });
   },
-  fillInSuggestion(suggestion) {
+  selectSuggestion(suggestion) {
     this.setState({value: suggestion});
     this.search(suggestion);
   },
@@ -119,7 +120,7 @@ export default React.createClass({
             searchTerm={this.state.searchTerm}
             suggestions={this.state.suggestions}
             highlightedItem={this.state.highlightedItem}
-            onSelection={this.fillInSuggestion} />}
+            onSelection={this.selectSuggestion} />}
       </div>
     );
   }
