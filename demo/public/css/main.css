@@ -66,7 +66,6 @@ input {
   padding: 8px 10px;
 }
 
-.search-bar-suggestions li:hover,
 .search-bar-suggestions .highlighted {
   background: #fafafa;
 }

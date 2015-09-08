@@ -15,8 +15,10 @@ export default React.createClass({
       suggestions: []
     };
   },
-  handleTouchMove() {
-    this._touchMoved = true;
+  getInitialState() {
+    return {
+      hoveredItem: -1
+    };
   },
   handleTouchEnd(match, e) {
     if (!this._touchMoved) {
@@ -28,15 +30,22 @@ export default React.createClass({
     let suggestions = this.props.suggestions.map((match, index) =>
       <li
         className={classNames({
-          highlighted: this.props.highlightedItem == index
+          highlighted: this.props.highlightedItem == index || this.state.hoveredItem == index
         })}
         key={index}
         onClick={() => this.props.onSelection(match)}
-        onTouchMove={this.handleTouchMove}
+        onMouseEnter={() => this.setState({hoveredItem: index})}
+        onTouchMove={() => this._touchMoved = true}
         onTouchEnd={(e) => this.handleTouchEnd(match, e)}>
         <strong>{this.props.searchTerm}</strong>{match.substr(this.props.searchTerm.length)}
       </li>
     );
-    return <ul className="search-bar-suggestions">{suggestions}</ul>;
+    return (
+      <ul
+        className="search-bar-suggestions"
+        onMouseLeave={() => this.setState({hoveredItem: null})}>
+        {suggestions}
+      </ul>
+    );
   }
 });
