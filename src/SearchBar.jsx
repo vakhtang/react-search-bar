@@ -7,7 +7,7 @@ const KEY_CODES = {
   down: 40
 };
 
-let SearchBar =  React.createClass({
+const SearchBar = React.createClass({
   propTypes: {
     autoFocus: React.PropTypes.bool,
     autosuggestDelay: React.PropTypes.number,
@@ -33,7 +33,7 @@ let SearchBar =  React.createClass({
   },
   componentDidMount() {
     if (this.props.autoFocus) {
-      React.findDOMNode(this.refs.value).focus();
+      this._input.focus();
     }
   },
   handleChange(e) {
@@ -75,7 +75,7 @@ let SearchBar =  React.createClass({
   },
   selectSuggestion(suggestion) {
     this.setState({value: suggestion});
-    React.findDOMNode(this.refs.value).blur();
+    this._input.blur();
     this.search(suggestion);
   },
   submit(e) {
@@ -104,7 +104,7 @@ let SearchBar =  React.createClass({
             autoCapitalize="none"
             autoComplete="off"
             autoCorrect="off"
-            ref="value"
+            ref={(c) => this._input = React.findDOMNode(c)}
             value={this.state.value}
             placeholder={this.props.placeholder}
             onChange={this.handleChange}

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-let Suggestions = React.createClass({
+const Suggestions = React.createClass({
   propTypes: {
     suggestions: React.PropTypes.array.required,
     highlightedItem: React.PropTypes.number.required,
