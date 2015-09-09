@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export default React.createClass({
-  displayName: 'Suggestions',
+let Suggestions = React.createClass({
   propTypes: {
     suggestions: React.PropTypes.array.required,
     highlightedItem: React.PropTypes.number.required,
@@ -43,9 +42,11 @@ export default React.createClass({
     return (
       <ul
         className="search-bar-suggestions"
-        onMouseLeave={() => this.setState({hoveredItem: null})}>
+        onMouseLeave={() => this.setState(this.getInitialState())}>
         {suggestions}
       </ul>
     );
   }
 });
+
+export default Suggestions;

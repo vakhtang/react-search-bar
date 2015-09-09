@@ -7,8 +7,7 @@ const KEY_CODES = {
   down: 40
 };
 
-export default React.createClass({
-  displayName: 'SearchBar',
+let SearchBar =  React.createClass({
   propTypes: {
     autoFocus: React.PropTypes.bool,
     autosuggestDelay: React.PropTypes.number,
@@ -64,7 +63,7 @@ export default React.createClass({
     let lastItem = suggestions.length - 1;
 
     if (e.which == KEY_CODES.up) {
-      item = (item == 0 || item == -1) ? lastItem : item - 1;
+      item = (item <= 0) ? lastItem : item - 1;
     } else if (e.which == KEY_CODES.down) {
       item = (item == lastItem) ? 0 : item + 1;
     }
@@ -76,6 +75,7 @@ export default React.createClass({
   },
   selectSuggestion(suggestion) {
     this.setState({value: suggestion});
+    React.findDOMNode(this.refs.value).blur();
     this.search(suggestion);
   },
   submit(e) {
@@ -124,3 +124,5 @@ export default React.createClass({
     );
   }
 });
+
+export default SearchBar;
