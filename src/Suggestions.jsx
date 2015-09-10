@@ -19,7 +19,7 @@ const Suggestions = React.createClass({
       hoveredItem: -1
     };
   },
-  handleTouchEnd(match, e) {
+  onTouchEnd(match, e) {
     if (!this._touchMoved) {
       this.props.onSelection(match);
     }
@@ -35,7 +35,7 @@ const Suggestions = React.createClass({
         onClick={() => this.props.onSelection(match)}
         onMouseEnter={() => this.setState({hoveredItem: index})}
         onTouchMove={() => this._touchMoved = true}
-        onTouchEnd={(e) => this.handleTouchEnd(match, e)}>
+        onTouchEnd={(e) => this.onTouchEnd(match, e)}>
         <strong>{this.props.searchTerm}</strong>{match.substr(this.props.searchTerm.length)}
       </li>
     );

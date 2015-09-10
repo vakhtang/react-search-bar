@@ -36,7 +36,7 @@ const SearchBar = React.createClass({
       this._input.focus();
     }
   },
-  handleChange(e) {
+  onChange(e) {
     clearTimeout(this._timerId);
     let input = e.target.value;
     if (!input) return this.setState(this.getInitialState());
@@ -55,7 +55,7 @@ const SearchBar = React.createClass({
       });
     }, this.props.autosuggestDelay);
   },
-  handleKeyDown(e) {
+  onKeyDown(e) {
     let {highlightedItem: item, suggestions} = this.state;
     let validKeys = e.which == KEY_CODES.up || e.which == KEY_CODES.down;
     if (!validKeys || suggestions.length == 0) return;
@@ -75,7 +75,6 @@ const SearchBar = React.createClass({
   },
   selectSuggestion(suggestion) {
     this.setState({value: suggestion});
-    this._input.blur();
     this.search(suggestion);
   },
   submit(e) {
@@ -85,6 +84,7 @@ const SearchBar = React.createClass({
   },
   search(value) {
     clearTimeout(this._timerId);
+    this._input.blur();
     let {suggestions, highlightedItem} = this.getInitialState();
     this.setState({
       suggestions: suggestions,
@@ -107,8 +107,8 @@ const SearchBar = React.createClass({
             ref={(c) => this._input = React.findDOMNode(c)}
             value={this.state.value}
             placeholder={this.props.placeholder}
-            onChange={this.handleChange}
-            onKeyDown={this.handleKeyDown} />
+            onChange={this.onChange}
+            onKeyDown={this.onKeyDown} />
           <input
             className="search-bar-submit"
             type="submit"
