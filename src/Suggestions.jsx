@@ -26,25 +26,28 @@ const Suggestions = React.createClass({
     this._touchMoved = false;
   },
   render() {
-    let suggestions = this.props.suggestions.map((match, index) =>
+    let {highlightedItem, searchTerm, suggestions} = this.props;
+    let {hoveredItem} = this.state;
+    suggestions = suggestions.map((match, index) =>
       <li
         className={classNames({
-          highlighted: this.props.highlightedItem == index || this.state.hoveredItem == index
+          highlighted: highlightedItem == index || hoveredItem == index
         })}
         key={index}
         onClick={() => this.props.onSelection(match)}
         onMouseEnter={() => this.setState({hoveredItem: index})}
+        onMouseDown={(e) => e.preventDefault()}
         onTouchMove={() => this._touchMoved = true}
         onTouchEnd={(e) => this.onTouchEnd(match, e)}>
-        <strong>{this.props.searchTerm}</strong>{match.substr(this.props.searchTerm.length)}
+        <strong>{searchTerm}</strong>{match.substr(searchTerm.length)}
       </li>
     );
     return (
-      <ul
+      <ol
         className="search-bar-suggestions"
         onMouseLeave={() => this.setState(this.getInitialState())}>
         {suggestions}
-      </ul>
+      </ol>
     );
   }
 });

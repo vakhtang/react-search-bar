@@ -25,25 +25,30 @@ input {
 
 .search-bar-input {
   -webkit-appearance: none;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 0;
   box-sizing: border-box;
   margin: 0;
   width: 100%;
 }
 
+.search-bar-input:focus {
+  border-color: #bbb;
+}
+
 .search-bar-submit {
   background: url(../img/icon.svg) center center no-repeat;
-  background-size: 75%;
+  background-size: 65%;
   border: 0;
   cursor: pointer;
   font-size: 0;
   height: 100%;
+  margin-right: 5px;
   opacity: .75;
   outline: 0;
   padding: 0;
   position: absolute;
-  right: 5px;
+  right: 0;
   top: 0;
   width: 25px;
 }
