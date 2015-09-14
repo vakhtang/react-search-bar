@@ -53,11 +53,13 @@ const SearchBar = React.createClass({
     if (key == KEY_CODES.up || key == KEY_CODES.down) {
       e.preventDefault();
       let lastItem = suggestions.length - 1;
+
       if (key == KEY_CODES.up) {
         item = (item <= 0) ? lastItem : item - 1;
       } else {
         item = (item == lastItem) ? 0 : item + 1;
       }
+
       this.setState({
         highlightedItem: item,
         value: suggestions[item]
