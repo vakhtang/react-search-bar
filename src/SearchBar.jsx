@@ -41,6 +41,7 @@ const SearchBar = React.createClass({
     let input = e.target.value;
     if (!input) return this.setState(this.getInitialState());
     this.setState({value: input});
+    
     this._timerId = setTimeout(() => {
       this.autosuggest(input);
     }, this.props.autosuggestDelay);
