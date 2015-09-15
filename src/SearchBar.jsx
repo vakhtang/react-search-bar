@@ -121,15 +121,13 @@ const SearchBar = React.createClass({
             type="submit"
             onClick={this.props.onSubmit && this.submit} />
         </div>
-        {
-          this.state.suggestions.length > 0 &&
+        { this.state.suggestions.length > 0 &&
           this.state.focused &&
           <Suggestions
             searchTerm={this.state.searchTerm}
             suggestions={this.state.suggestions}
             highlightedItem={this.state.highlightedItem}
-            onSelection={this.selectSuggestion} />
-        }
+            onSelection={this.selectSuggestion} /> }
       </div>
     );
   }
