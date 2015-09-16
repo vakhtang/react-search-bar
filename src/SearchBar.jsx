@@ -72,7 +72,7 @@ const SearchBar = React.createClass({
       if (!this.state.value) return;
       this.setState({
         highlightedItem: -1,
-        searchTerm: input,
+        searchTerm: input.toLowerCase(),
         suggestions: suggestions
       });
     });
