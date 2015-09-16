@@ -41,31 +41,29 @@ const SearchBar = React.createClass({
     let input = e.target.value;
     if (!input) return this.setState(this.getInitialState());
     this.setState({value: input});
-    
+
     this._timerId = setTimeout(() => {
       this.autosuggest(input);
     }, this.props.autosuggestDelay);
   },
   onKeyDown(e) {
     let {highlightedItem: item, suggestions} = this.state;
-    let key = e.which;
     if (suggestions.length == 0) return;
+    let key = e.which;
+    if (key != KEY_CODES.up && key != KEY_CODES.down) return;
+    e.preventDefault();
+    let lastItem = suggestions.length - 1;
 
-    if (key == KEY_CODES.up || key == KEY_CODES.down) {
-      e.preventDefault();
-      let lastItem = suggestions.length - 1;
-
-      if (key == KEY_CODES.up) {
-        item = (item <= 0) ? lastItem : item - 1;
-      } else {
-        item = (item == lastItem) ? 0 : item + 1;
-      }
-
-      this.setState({
-        highlightedItem: item,
-        value: suggestions[item]
-      });
+    if (key == KEY_CODES.up) {
+      item = (item <= 0) ? lastItem : item - 1;
+    } else {
+      item = (item == lastItem) ? 0 : item + 1;
     }
+
+    this.setState({
+      highlightedItem: item,
+      value: suggestions[item]
+    });
   },
   autosuggest(input) {
     new Promise((resolve) => {
