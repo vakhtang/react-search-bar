@@ -10,13 +10,13 @@ const KEY_CODES = {
 const SearchBar = React.createClass({
   propTypes: {
     autoFocus: React.PropTypes.bool,
-    autosuggestDelay: React.PropTypes.number,
+    debounceDelay: React.PropTypes.number,
     inputName: React.PropTypes.string
   },
   getDefaultProps() {
     return {
       autoFocus: true,
-      autosuggestDelay: 250,
+      debounceDelay: 250,
       inputName: 'query'
     };
   },
@@ -43,8 +43,17 @@ const SearchBar = React.createClass({
     this.setState({value: input});
 
     this._timerId = setTimeout(() => {
-      this.autosuggest(input);
-    }, this.props.autosuggestDelay);
+      new Promise((resolve) => {
+        this.props.onChange(input, resolve);
+      }).then((suggestions) => {
+        if (!this.state.value) return;
+        this.setState({
+          highlightedItem: -1,
+          searchTerm: input.toLowerCase(),
+          suggestions
+        });
+      });
+    }, this.props.debounceDelay);
   },
   onKeyDown(e) {
     let {highlightedItem: item, suggestions} = this.state;
@@ -65,23 +74,14 @@ const SearchBar = React.createClass({
       value: suggestions[item]
     });
   },
-  autosuggest(input) {
-    new Promise((resolve) => {
-      this.props.onChange(input, resolve);
-    }).then((suggestions) => {
-      if (!this.state.value) return;
-      this.setState({
-        highlightedItem: -1,
-        searchTerm: input.toLowerCase(),
-        suggestions: suggestions
-      });
-    });
+  onFocusToggle() {
+    this.setState({focused: !this.state.focused});
   },
-  selectSuggestion(suggestion) {
+  onSelection(suggestion) {
     this.setState({value: suggestion});
     this.search(suggestion);
   },
-  submit(e) {
+  onSubmit(e) {
     e.preventDefault();
     if (!this.state.value) return;
     this.search(this.state.value.trim());
@@ -92,9 +92,6 @@ const SearchBar = React.createClass({
     let {highlightedItem, suggestions} = this.getInitialState();
     this.setState({highlightedItem, suggestions});
     this.props.onSubmit(value);
-  },
-  toggleFocusState() {
-    this.setState({focused: !this.state.focused});
   },
   render() {
     return (
@@ -113,12 +110,12 @@ const SearchBar = React.createClass({
             placeholder={this.props.placeholder}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
-            onBlur={this.toggleFocusState}
-            onFocus={this.toggleFocusState} />
+            onBlur={this.onFocusToggle}
+            onFocus={this.onFocusToggle} />
           <input
             className="search-bar-submit"
             type="submit"
-            onClick={this.props.onSubmit && this.submit} />
+            onClick={this.props.onSubmit && this.onSubmit} />
         </div>
         { this.state.suggestions.length > 0 &&
           this.state.focused &&
@@ -126,7 +123,7 @@ const SearchBar = React.createClass({
             searchTerm={this.state.searchTerm}
             suggestions={this.state.suggestions}
             highlightedItem={this.state.highlightedItem}
-            onSelection={this.selectSuggestion} /> }
+            onSelection={this.onSelection} /> }
       </div>
     );
   }

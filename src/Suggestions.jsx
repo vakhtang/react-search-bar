@@ -19,12 +19,15 @@ const Suggestions = React.createClass({
       activeItem: -1
     };
   },
+  onTouchMove(e) {
+    this._touchMoved = true;
+    this.setState({activeItem: -1});
+  },
   onTouchEnd(match, e) {
     if (!this._touchMoved) {
       this.props.onSelection(match);
     }
     this._touchMoved = false;
-    this.setState({activeItem: -1});
   },
   setActiveItem(index) {
     this.setState({activeItem: index});
@@ -41,9 +44,9 @@ const Suggestions = React.createClass({
         onClick={() => this.props.onSelection(match)}
         onMouseEnter={() => this.setActiveItem(index)}
         onMouseDown={(e) => e.preventDefault()}
-        onTouchMove={() => this._touchMoved = true}
-        onTouchEnd={(e) => this.onTouchEnd(match, e)}
-        onTouchStart={() => this.setActiveItem(index)}>
+        onTouchStart={() => this.setActiveItem(index)}
+        onTouchMove={this.onTouchMove}
+        onTouchEnd={(e) => this.onTouchEnd(match, e)}>
         <strong>{searchTerm}</strong>{match.substr(searchTerm.length)}
       </li>
     );
