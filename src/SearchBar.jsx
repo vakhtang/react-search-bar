@@ -75,9 +75,6 @@ const SearchBar = React.createClass({
       value: suggestions[item]
     });
   },
-  onFocusToggle() {
-    this.setState({focused: !this.state.focused});
-  },
   onSelection(suggestion) {
     this.setState({value: suggestion});
     this.search(suggestion);
@@ -111,8 +108,8 @@ const SearchBar = React.createClass({
             placeholder={this.props.placeholder}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
-            onBlur={this.onFocusToggle}
-            onFocus={this.onFocusToggle} />
+            onBlur={() => this.setState({focused: false})}
+            onFocus={() => this.setState({focused: true})} />
           <input
             className="search-bar-submit"
             type="submit"

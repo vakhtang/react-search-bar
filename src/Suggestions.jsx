@@ -19,18 +19,23 @@ const Suggestions = React.createClass({
       activeItem: -1
     };
   },
+  onTouchStart(index) {
+    this._timerId = setTimeout(() => {
+      this.setState({activeItem: index});
+    }, 200);
+  },
   onTouchMove(e) {
+    clearTimeout(this._timerId);
     this._touchMoved = true;
     this.setState({activeItem: -1});
   },
   onTouchEnd(match, e) {
     if (!this._touchMoved) {
-      this.props.onSelection(match);
+      setTimeout(() => {
+        this.props.onSelection(match);
+      }, 250);
     }
     this._touchMoved = false;
-  },
-  setActiveItem(index) {
-    this.setState({activeItem: index});
   },
   render() {
     let {highlightedItem, searchTerm, suggestions} = this.props;
@@ -46,12 +51,12 @@ const Suggestions = React.createClass({
             })}
             key={index}
             onClick={() => this.props.onSelection(match)}
-            onMouseEnter={() => this.setActiveItem(index)}
+            onMouseEnter={() => this.setState({activeItem: index})}
             onMouseDown={(e) => e.preventDefault()}
-            onTouchStart={() => this.setActiveItem(index)}
+            onTouchStart={() => this.onTouchStart(index)}
             onTouchMove={this.onTouchMove}
             onTouchEnd={(e) => this.onTouchEnd(match, e)}>
-            <span><strong>{searchTerm}</strong>{match.substr(searchTerm.length)}</span>
+            {searchTerm}<strong>{match.substr(searchTerm.length)}</strong>
           </li>
         )}
       </ul>
