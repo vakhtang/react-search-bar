@@ -16,7 +16,7 @@ const SearchBar = React.createClass({
   getDefaultProps() {
     return {
       autoFocus: true,
-      debounceDelay: 250,
+      debounceDelay: 100,
       inputName: 'query'
     };
   },
@@ -43,6 +43,7 @@ const SearchBar = React.createClass({
     this.setState({value: input});
 
     this._timerId = setTimeout(() => {
+      input = input.toLowerCase().trim();
       new Promise((resolve) => {
         this.props.onChange(input, resolve);
       }).then((suggestions) => {

@@ -35,26 +35,25 @@ const Suggestions = React.createClass({
   render() {
     let {highlightedItem, searchTerm, suggestions} = this.props;
     let {activeItem} = this.state;
-    suggestions = suggestions.map((match, index) =>
-      <li
-        className={classNames({
-          highlighted: highlightedItem == index || activeItem == index
-        })}
-        key={index}
-        onClick={() => this.props.onSelection(match)}
-        onMouseEnter={() => this.setActiveItem(index)}
-        onMouseDown={(e) => e.preventDefault()}
-        onTouchStart={() => this.setActiveItem(index)}
-        onTouchMove={this.onTouchMove}
-        onTouchEnd={(e) => this.onTouchEnd(match, e)}>
-        <strong>{searchTerm}</strong>{match.substr(searchTerm.length)}
-      </li>
-    );
     return (
       <ul
         className="search-bar-suggestions"
         onMouseLeave={() => this.setState(this.getInitialState())}>
-        {suggestions}
+        {suggestions.map((match, index) =>
+          <li
+            className={classNames({
+              highlighted: highlightedItem == index || activeItem == index
+            })}
+            key={index}
+            onClick={() => this.props.onSelection(match)}
+            onMouseEnter={() => this.setActiveItem(index)}
+            onMouseDown={(e) => e.preventDefault()}
+            onTouchStart={() => this.setActiveItem(index)}
+            onTouchMove={this.onTouchMove}
+            onTouchEnd={(e) => this.onTouchEnd(match, e)}>
+            <span><strong>{searchTerm}</strong>{match.substr(searchTerm.length)}</span>
+          </li>
+        )}
       </ul>
     );
   }

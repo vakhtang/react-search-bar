@@ -2,10 +2,11 @@ import React from 'react';
 import SearchBar from '../src/SearchBar';
 
 const suggestions = [
-  'imac',
-  'imac 5k',
-  'iphone 5',
-  'iphone 6'
+  'mac pro',
+  'mac mini',
+  'macbook',
+  'macbook air',
+  'macbook pro'
 ];
 
 let App = React.createClass({
@@ -25,7 +26,7 @@ let App = React.createClass({
     return (
       <form>
         <SearchBar
-          placeholder="type 'i'"
+          placeholder="search 'mac'"
           onChange={this.onChange}
           onSubmit={this.onSubmit} />
       </form>
