@@ -44,6 +44,7 @@ const SearchBar = React.createClass({
 
     this._timerId = setTimeout(() => {
       input = input.toLowerCase().trim();
+      if (!input) return;
       new Promise((resolve) => {
         this.props.onChange(input, resolve);
       }).then((suggestions) => {

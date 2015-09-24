@@ -29,21 +29,21 @@ to the `onSubmit` event handler is optional.
 
 ## Props
 
-#### autoFocus
+### autoFocus
 
 default: `false`
 
 indicates whether the component should take focus on
 page load
 
-#### debounceDelay
+### debounceDelay
 
 default: `100`
 
 the number of milliseconds to wait after the last key
 stroke before performing autosuggest
 
-#### inputName
+### inputName
 
 default: `"query"`
 
