@@ -3,9 +3,9 @@ import classNames from 'classnames';
 
 const Suggestions = React.createClass({
   propTypes: {
-    suggestions: React.PropTypes.array.required,
-    highlightedItem: React.PropTypes.number.required,
-    searchTerm: React.PropTypes.string.required
+    suggestions: React.PropTypes.array.isRequired,
+    highlightedItem: React.PropTypes.number.isRequired,
+    searchTerm: React.PropTypes.string.isRequired
   },
   getDefaultProps() {
     return {
@@ -33,7 +33,7 @@ const Suggestions = React.createClass({
     if (!this._touchMoved) {
       setTimeout(() => {
         this.props.onSelection(match);
-      }, 250);
+      }, 220);
     }
     this._touchMoved = false;
   },

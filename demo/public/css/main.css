@@ -7,7 +7,7 @@ body {
 }
 
 input {
-  font-size: 120%;
+  font: 120% sans-serif;
   outline: 0;
   padding: 5px 30px 5px 5px;
 }
@@ -18,7 +18,7 @@ input {
 
 @media screen and (min-width: 640px) {
   .search-bar-wrapper {
-    min-width: 320px;
+    min-width: 480px;
     width: 40%;
   }
 }
