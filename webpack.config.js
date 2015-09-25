@@ -2,7 +2,11 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: ['webpack/hot/dev-server', './demo.jsx']
+    app: ['./demo/demo.jsx']
+  },
+  output: {
+    path: './demo/public',
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -13,14 +17,15 @@ module.exports = {
       }
     ]
   },
-  devServer: {
-    contentBase: './public',
-    hot: true,
-    noInfo: true,
-    port: 5000
-  },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()]
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': '"production"'
+      }
+    })
+  ]
 };

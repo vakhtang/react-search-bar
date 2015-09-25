@@ -22,7 +22,8 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src --out-dir lib",
-    "demo": "cd demo && webpack-dev-server --config webpack.config.dev.js",
+    "build-demo": "webpack -p",
+    "demo": "webpack-dev-server --config webpack.config.dev.js",
     "lint": "eslint src"
   },
   "repository": {

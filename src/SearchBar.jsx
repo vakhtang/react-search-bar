@@ -82,8 +82,9 @@ const SearchBar = React.createClass({
   },
   onSubmit(e) {
     e.preventDefault();
-    if (!this.state.value) return;
-    this.search(this.state.value.toLowerCase().trim());
+    let input = this.state.value.toLowerCase().trim();
+    if (input) return;
+    this.search(input);
   },
   search(value) {
     clearTimeout(this._timerId);

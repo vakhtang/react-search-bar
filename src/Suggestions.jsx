@@ -29,10 +29,10 @@ const Suggestions = React.createClass({
     this._touchMoved = true;
     this.setState({activeItem: -1});
   },
-  onTouchEnd(match, e) {
+  onTouchEnd(suggestion, e) {
     if (!this._touchMoved) {
       setTimeout(() => {
-        this.props.onSelection(match);
+        this.props.onSelection(suggestion);
       }, 220);
     }
     this._touchMoved = false;
@@ -44,19 +44,22 @@ const Suggestions = React.createClass({
       <ul
         className="search-bar-suggestions"
         onMouseLeave={() => this.setState(this.getInitialState())}>
-        {suggestions.map((match, index) =>
+        {suggestions.map((suggestion, index) =>
           <li
             className={classNames({
               highlighted: highlightedItem == index || activeItem == index
             })}
             key={index}
-            onClick={() => this.props.onSelection(match)}
+            onClick={() => this.props.onSelection(suggestion)}
             onMouseEnter={() => this.setState({activeItem: index})}
             onMouseDown={(e) => e.preventDefault()}
             onTouchStart={() => this.onTouchStart(index)}
             onTouchMove={this.onTouchMove}
-            onTouchEnd={(e) => this.onTouchEnd(match, e)}>
-            {searchTerm}<strong>{match.substr(searchTerm.length)}</strong>
+            onTouchEnd={(e) => this.onTouchEnd(suggestion, e)}>
+            <span>
+              {searchTerm}
+              <strong>{suggestion.substr(searchTerm.length)}</strong>
+            </span>
           </li>
         )}
       </ul>
