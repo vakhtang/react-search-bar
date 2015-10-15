@@ -83,7 +83,7 @@ const SearchBar = React.createClass({
   onSubmit(e) {
     e.preventDefault();
     let input = this.state.value.toLowerCase().trim();
-    if (input) return;
+    if (!input) return;
     this.search(input);
   },
   search(value) {
