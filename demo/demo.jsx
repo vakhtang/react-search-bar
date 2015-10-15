@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import SearchBar from '../src/SearchBar';
 
 const suggestions = [
@@ -34,4 +35,4 @@ let App = React.createClass({
   }
 });
 
-React.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));

@@ -28,12 +28,9 @@ const SearchBar = React.createClass({
       value: ''
     };
   },
-  componentWillMount() {
-    React.initializeTouchEvents(true);
-  },
   componentDidMount() {
     if (this.props.autoFocus) {
-      this._input.focus();
+      this.refs.input.focus();
     }
   },
   onChange(e) {
@@ -43,15 +40,15 @@ const SearchBar = React.createClass({
     this.setState({value: input});
 
     this._timerId = setTimeout(() => {
-      input = input.toLowerCase().trim();
-      if (!input) return;
+      let searchTerm = input.toLowerCase().trim();
+      if (!searchTerm) return;
       new Promise((resolve) => {
         this.props.onChange(input, resolve);
       }).then((suggestions) => {
         if (!this.state.value) return;
         this.setState({
           highlightedItem: -1,
-          searchTerm: input,
+          searchTerm,
           suggestions
         });
       });
@@ -88,7 +85,7 @@ const SearchBar = React.createClass({
   },
   search(value) {
     clearTimeout(this._timerId);
-    this._input.blur();
+    this.refs.input.blur();
     let {highlightedItem, suggestions} = this.getInitialState();
     this.setState({highlightedItem, suggestions});
     this.props.onSubmit(value);
@@ -105,7 +102,7 @@ const SearchBar = React.createClass({
             autoCapitalize="none"
             autoComplete="off"
             autoCorrect="off"
-            ref={(c) => this._input = React.findDOMNode(c)}
+            ref="input"
             value={this.state.value}
             placeholder={this.props.placeholder}
             onChange={this.onChange}
