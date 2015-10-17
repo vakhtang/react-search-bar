@@ -1,0 +1,1 @@
+Icons used in demo were made by [Egor Rumyantsev](http://www.flaticon.com/authors/egor-rumyantsev), are available from [www.flaticon.com](http://flaticon.com), and are licensed by [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/).

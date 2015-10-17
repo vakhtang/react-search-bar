@@ -1,4 +1,5 @@
 import 'es6-promise';
+import classNames from 'classnames';
 import React from 'react';
 import Suggestions from './Suggestions';
 
@@ -91,9 +92,14 @@ const SearchBar = React.createClass({
     this.props.onSubmit(value);
   },
   render() {
+    let hasSuggestions = this.state.suggestions.length > 0;
+    let isFocused = this.state.focused;
     return (
       <div className="search-bar-wrapper">
-        <div className="search-bar-field">
+        <div className={classNames(
+          "search-bar-field",
+          {"is-focused": isFocused}
+        )}>
           <input
             className="search-bar-input"
             name={this.props.inputName}
@@ -109,13 +115,17 @@ const SearchBar = React.createClass({
             onKeyDown={this.onKeyDown}
             onBlur={() => this.setState({focused: false})}
             onFocus={() => this.setState({focused: true})} />
+          { hasSuggestions &&
+            <span
+              className="icon search-bar-cancel"
+              onClick={() => this.setState(this.getInitialState())}></span> }
           <input
-            className="search-bar-submit"
+            className="icon search-bar-submit"
             type="submit"
             onClick={this.props.onSubmit && this.onSubmit} />
         </div>
-        { this.state.suggestions.length > 0 &&
-          this.state.focused &&
+        { hasSuggestions &&
+          isFocused &&
           <Suggestions
             searchTerm={this.state.searchTerm}
             suggestions={this.state.suggestions}

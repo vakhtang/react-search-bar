@@ -9,7 +9,6 @@ body {
 input {
   font: 120% sans-serif;
   outline: 0;
-  padding: 5px 30px 5px 5px;
 }
 
 .search-bar-wrapper {
@@ -33,22 +32,17 @@ input {
   border-radius: 0;
   box-sizing: border-box;
   margin: 0;
+  padding: 5px 42px 5px 5px;
   width: 100%;
 }
 
-.search-bar-input:focus {
-  border-color: #bbb;
-}
-
-.search-bar-submit {
-  background: url(../img/icon.svg) center center no-repeat;
-  background-size: 65%;
+.icon {
+  background-position: center center;
+  background-repeat: no-repeat;
   border: 0;
   cursor: pointer;
   font-size: 0;
   height: 100%;
-  margin-right: 5px;
-  opacity: .75;
   outline: 0;
   padding: 0;
   position: absolute;
@@ -57,8 +51,30 @@ input {
   width: 25px;
 }
 
+.search-bar-cancel {
+  background-image: url(../img/cancel.svg);
+  background-size: 40%;
+  display: inline-block;
+  right: 45px;
+}
+
+.search-bar-submit {
+  background-color: #e5e5e5;
+  background-image: url(../img/search.svg);
+  background-size: 35%;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  padding: 0 20px;
+  opacity: .8;
+}
+
 .search-bar-submit:hover {
   opacity: 1;
+}
+
+.is-focused .search-bar-input,
+.is-focused .search-bar-submit {
+  border-color: #ccc;
 }
 
 .search-bar-suggestions {
