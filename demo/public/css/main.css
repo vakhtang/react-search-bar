@@ -1,7 +1,3 @@
-html {
-  -webkit-tap-highlight-color: transparent;
-}
-
 body {
   font-family: sans-serif;
 }
@@ -86,10 +82,11 @@ input {
 }
 
 .search-bar-suggestions li {
+  border-bottom: 1px solid #e1e1e1;
   cursor: default;
   letter-spacing: 0.03em;
   padding: 12px 10px;
-  border-bottom: 1px solid #e1e1e1;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .search-bar-suggestions li:last-child {
