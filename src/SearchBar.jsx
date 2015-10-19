@@ -93,7 +93,7 @@ const SearchBar = React.createClass({
   },
   render() {
     let hasSuggestions = this.state.suggestions.length > 0;
-    let isFocused = this.state.focused;
+    let {isFocused} = this.state;
     return (
       <div className="search-bar-wrapper">
         <div className={classNames(
@@ -113,19 +113,19 @@ const SearchBar = React.createClass({
             placeholder={this.props.placeholder}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
-            onBlur={() => this.setState({focused: false})}
-            onFocus={() => this.setState({focused: true})} />
-          { hasSuggestions &&
-            <span
-              className="icon search-bar-cancel"
-              onClick={() => this.setState(this.getInitialState())}></span> }
+            onBlur={() => this.setState({isFocused: false, suggestions: []})}
+            onFocus={() => this.setState({isFocused: true})} />
+            { hasSuggestions &&
+              <span
+                className="icon search-bar-cancel"
+                onClick={() => this.setState(this.getInitialState())}>
+              </span> }
           <input
             className="icon search-bar-submit"
             type="submit"
             onClick={this.props.onSubmit && this.onSubmit} />
         </div>
         { hasSuggestions &&
-          isFocused &&
           <Suggestions
             searchTerm={this.state.searchTerm}
             suggestions={this.state.suggestions}

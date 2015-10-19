@@ -89,6 +89,11 @@ input {
   cursor: default;
   letter-spacing: 0.03em;
   padding: 12px 10px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.search-bar-suggestions li:last-child {
+  border: none;
 }
 
 .search-bar-suggestions .highlighted {
