@@ -93,12 +93,11 @@ const SearchBar = React.createClass({
   },
   render() {
     let hasSuggestions = this.state.suggestions.length > 0;
-    let {isFocused} = this.state;
     return (
       <div className="search-bar-wrapper">
         <div className={classNames(
           "search-bar-field",
-          {"is-focused": isFocused}
+          {"is-focused": this.state.isFocused}
         )}>
           <input
             className="search-bar-input"
