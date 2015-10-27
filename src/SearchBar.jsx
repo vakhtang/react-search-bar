@@ -12,7 +12,8 @@ const SearchBar = React.createClass({
   propTypes: {
     autoFocus: React.PropTypes.bool,
     debounceDelay: React.PropTypes.number,
-    inputName: React.PropTypes.string
+    inputName: React.PropTypes.string,
+    placeholder: React.PropTypes.string
   },
   getDefaultProps() {
     return {
@@ -34,6 +35,9 @@ const SearchBar = React.createClass({
       this.refs.input.focus();
     }
   },
+  normalizeInput() {
+    return this.state.value.toLowerCase().trim();
+  },
   onChange(e) {
     clearTimeout(this._timerId);
     let input = e.target.value;
@@ -41,7 +45,7 @@ const SearchBar = React.createClass({
     this.setState({value: input});
 
     this._timerId = setTimeout(() => {
-      let searchTerm = input.toLowerCase().trim();
+      let searchTerm = this.normalizeInput();
       if (!searchTerm) return;
       new Promise((resolve) => {
         this.props.onChange(input, resolve);
@@ -56,14 +60,11 @@ const SearchBar = React.createClass({
     }, this.props.debounceDelay);
   },
   onKeyDown(e) {
-    let {highlightedItem: item, suggestions} = this.state;
-    if (suggestions.length == 0) return;
-    let key = e.which;
-    if (key != KEY_CODES.up && key != KEY_CODES.down) return;
     e.preventDefault();
+    let {highlightedItem: item, suggestions} = this.state;
     let lastItem = suggestions.length - 1;
 
-    if (key == KEY_CODES.up) {
+    if (e.which == KEY_CODES.up) {
       item = (item <= 0) ? lastItem : item - 1;
     } else {
       item = (item == lastItem) ? 0 : item + 1;
@@ -80,7 +81,7 @@ const SearchBar = React.createClass({
   },
   onSubmit(e) {
     e.preventDefault();
-    let input = this.state.value.toLowerCase().trim();
+    let input = this.normalizeInput();
     if (!input) return;
     this.search(input);
   },
@@ -110,7 +111,11 @@ const SearchBar = React.createClass({
             value={this.state.value}
             placeholder={this.props.placeholder}
             onChange={this.onChange}
-            onKeyDown={this.onKeyDown}
+            onKeyDown={(e) => {
+              (e.which == KEY_CODES.up || e.which == KEY_CODES.down) &&
+              this.state.suggestions.length != 0 &&
+              this.onKeyDown(e);
+            }}
             onBlur={() => this.setState({isFocused: false, suggestions: []})}
             onFocus={() => this.setState({isFocused: true})} />
             { this.state.value &&
