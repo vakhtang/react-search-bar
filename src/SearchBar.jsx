@@ -30,6 +30,11 @@ const SearchBar = React.createClass({
       value: ''
     };
   },
+  componentWillMount() {
+    if (!this.props.onChange) {
+      throw Error('You must supply a callback to `onChange`.');
+    }
+  },
   componentDidMount() {
     if (this.props.autoFocus) {
       this.refs.input.focus();
