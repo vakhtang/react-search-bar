@@ -13,6 +13,8 @@ const SearchBar = React.createClass({
     autoFocus: React.PropTypes.bool,
     debounceDelay: React.PropTypes.number,
     inputName: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    onSubmit: React.PropTypes.func,
     placeholder: React.PropTypes.string
   },
   getDefaultProps() {
@@ -43,26 +45,33 @@ const SearchBar = React.createClass({
   normalizeInput() {
     return this.state.value.toLowerCase().trim();
   },
+  autosuggest() {
+    let searchTerm = this.normalizeInput();
+    if (!searchTerm) return;
+    new Promise((resolve) => {
+      this.props.onChange(searchTerm, resolve);
+    }).then((suggestions) => {
+      if (!this.state.value) return;
+      this.setState({
+        highlightedItem: -1,
+        searchTerm,
+        suggestions
+      });
+    });
+  },
+  search(value) {
+    clearTimeout(this._timerId);
+    this.refs.input.blur();
+    let {highlightedItem, suggestions} = this.getInitialState();
+    this.setState({highlightedItem, suggestions});
+    this.props.onSubmit(value);
+  },
   onChange(e) {
     clearTimeout(this._timerId);
     let input = e.target.value;
     if (!input) return this.setState(this.getInitialState());
     this.setState({value: input});
-
-    this._timerId = setTimeout(() => {
-      let searchTerm = this.normalizeInput();
-      if (!searchTerm) return;
-      new Promise((resolve) => {
-        this.props.onChange(input, resolve);
-      }).then((suggestions) => {
-        if (!this.state.value) return;
-        this.setState({
-          highlightedItem: -1,
-          searchTerm,
-          suggestions
-        });
-      });
-    }, this.props.debounceDelay);
+    this._timerId = setTimeout(this.autosuggest, this.props.debounceDelay);
   },
   onKeyDown(e) {
     e.preventDefault();
@@ -90,13 +99,6 @@ const SearchBar = React.createClass({
     if (!input) return;
     this.search(input);
   },
-  search(value) {
-    clearTimeout(this._timerId);
-    this.refs.input.blur();
-    let {highlightedItem, suggestions} = this.getInitialState();
-    this.setState({highlightedItem, suggestions});
-    this.props.onSubmit(value);
-  },
   render() {
     return (
       <div className="search-bar-wrapper">
@@ -118,7 +120,7 @@ const SearchBar = React.createClass({
             onChange={this.onChange}
             onKeyDown={(e) => {
               (e.which == KEY_CODES.up || e.which == KEY_CODES.down) &&
-              this.state.suggestions.length != 0 &&
+              this.state.suggestions &&
               this.onKeyDown(e);
             }}
             onBlur={() => this.setState({isFocused: false, suggestions: []})}
