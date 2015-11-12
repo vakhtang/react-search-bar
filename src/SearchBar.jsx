@@ -8,43 +8,27 @@ const KEY_CODES = {
   down: 40
 };
 
-const SearchBar = React.createClass({
-  propTypes: {
-    autoFocus: React.PropTypes.bool,
-    debounceDelay: React.PropTypes.number,
-    inputName: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    onSubmit: React.PropTypes.func,
-    placeholder: React.PropTypes.string
-  },
-  getDefaultProps() {
-    return {
-      autoFocus: true,
-      debounceDelay: 100,
-      inputName: 'query'
-    };
-  },
-  getInitialState() {
-    return {
+class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+    if (!props.onChange) {
+      throw Error('You must supply a callback to `onChange`.');
+    }
+    this.state = this._initialState = {
       highlightedItem: -1,
       searchTerm: '',
       suggestions: [],
       value: ''
     };
-  },
-  componentWillMount() {
-    if (!this.props.onChange) {
-      throw Error('You must supply a callback to `onChange`.');
-    }
-  },
+  }
   componentDidMount() {
     if (this.props.autoFocus) {
       this.refs.input.focus();
     }
-  },
+  }
   normalizeInput() {
     return this.state.value.toLowerCase().trim();
-  },
+  }
   autosuggest() {
     let searchTerm = this.normalizeInput();
     if (!searchTerm) return;
@@ -58,21 +42,23 @@ const SearchBar = React.createClass({
         suggestions
       });
     });
-  },
+  }
   search(value) {
     clearTimeout(this._timerId);
     this.refs.input.blur();
-    let {highlightedItem, suggestions} = this.getInitialState();
+    let {highlightedItem, suggestions} = this._initialState;
     this.setState({highlightedItem, suggestions});
     this.props.onSubmit(value);
-  },
+  }
   onChange(e) {
     clearTimeout(this._timerId);
     let input = e.target.value;
-    if (!input) return this.setState(this.getInitialState());
+    if (!input) return this.setState(this._initialState);
     this.setState({value: input});
-    this._timerId = setTimeout(this.autosuggest, this.props.debounceDelay);
-  },
+    this._timerId = setTimeout(() => {
+      this.autosuggest();
+    }, this.props.debounceDelay);
+  }
   onKeyDown(e) {
     e.preventDefault();
     let {highlightedItem: item, suggestions} = this.state;
@@ -88,17 +74,17 @@ const SearchBar = React.createClass({
       highlightedItem: item,
       value: suggestions[item]
     });
-  },
+  }
   onSelection(suggestion) {
     this.setState({value: suggestion});
     this.search(suggestion);
-  },
+  }
   onSubmit(e) {
     e.preventDefault();
     let input = this.normalizeInput();
     if (!input) return;
     this.search(input);
-  },
+  }
   render() {
     return (
       <div className="search-bar-wrapper">
@@ -117,7 +103,7 @@ const SearchBar = React.createClass({
             ref="input"
             value={this.state.value}
             placeholder={this.props.placeholder}
-            onChange={this.onChange}
+            onChange={this.onChange.bind(this)}
             onKeyDown={(e) => {
               (e.which == KEY_CODES.up || e.which == KEY_CODES.down) &&
               this.state.suggestions &&
@@ -128,22 +114,37 @@ const SearchBar = React.createClass({
             { this.state.value &&
               <span
                 className="icon search-bar-cancel"
-                onClick={() => this.setState(this.getInitialState())}>
+                onClick={() => this.setState(this._initialState)}>
               </span> }
           <input
             className="icon search-bar-submit"
             type="submit"
-            onClick={this.props.onSubmit && this.onSubmit} />
+            onClick={this.props.onSubmit && this.onSubmit.bind(this)} />
         </div>
         { this.state.suggestions.length > 0 &&
           <Suggestions
             searchTerm={this.state.searchTerm}
             suggestions={this.state.suggestions}
             highlightedItem={this.state.highlightedItem}
-            onSelection={this.onSelection} /> }
+            onSelection={this.onSelection.bind(this)} /> }
       </div>
     );
   }
-});
+}
+
+SearchBar.propTypes = {
+  autoFocus: React.PropTypes.bool,
+  debounceDelay: React.PropTypes.number,
+  inputName: React.PropTypes.string,
+  onChange: React.PropTypes.func.isRequired,
+  onSubmit: React.PropTypes.func,
+  placeholder: React.PropTypes.string
+};
+
+SearchBar.defaultProps = {
+  autoFocus: true,
+  debounceDelay: 100,
+  inputName: 'query'
+};
 
 export default SearchBar;
