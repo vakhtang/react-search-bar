@@ -13,12 +13,12 @@ class Suggestions extends React.Component {
       this.setState({activeItem: index});
     }, 200);
   }
-  onTouchMove(e) {
+  onTouchMove() {
     clearTimeout(this._timerId);
     this._touchMoved = true;
     this.setState({activeItem: -1});
   }
-  onTouchEnd(suggestion, e) {
+  onTouchEnd(suggestion) {
     if (!this._touchMoved) {
       setTimeout(() => {
         this.props.onSelection(suggestion);
@@ -43,8 +43,8 @@ class Suggestions extends React.Component {
             onMouseEnter={() => this.setState({activeItem: index})}
             onMouseDown={(e) => e.preventDefault()}
             onTouchStart={() => this.onTouchStart(index)}
-            onTouchMove={this.onTouchMove.bind(this)}
-            onTouchEnd={(e) => this.onTouchEnd(suggestion, e)}>
+            onTouchMove={() => this.onTouchMove()}
+            onTouchEnd={() => this.onTouchEnd(suggestion)}>
             <span>
               {searchTerm}
               <strong>{suggestion.substr(searchTerm.length)}</strong>
