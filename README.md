@@ -2,6 +2,8 @@
 
 A search bar with autosuggest, built in React.
 
+![search bar](http://s3.io/aU1rkdpjjSajYDvv8Xlv069w.gif)
+
 ## Installation
 
 ```
