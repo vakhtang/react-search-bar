@@ -4,6 +4,7 @@ import React from 'react';
 import Suggestions from './Suggestions';
 
 const KEY_CODES = {
+  escape: 27,
   up: 38,
   down: 40
 };
@@ -59,12 +60,11 @@ class SearchBar extends React.Component {
       this.autosuggest();
     }, this.props.debounceDelay);
   }
-  onKeyDown(e) {
-    e.preventDefault();
+  scroll(key) {
     let {highlightedItem: item, suggestions} = this.state;
     let lastItem = suggestions.length - 1;
 
-    if (e.which == KEY_CODES.up) {
+    if (key == KEY_CODES.up) {
       item = (item <= 0) ? lastItem : item - 1;
     } else {
       item = (item == lastItem) ? 0 : item + 1;
@@ -74,6 +74,14 @@ class SearchBar extends React.Component {
       highlightedItem: item,
       value: suggestions[item]
     });
+  }
+  onKeyDown(e) {
+    if (e.which === KEY_CODES.escape) {
+      return this.refs.input.blur();
+    } else if (e.which === KEY_CODES.up || e.which === KEY_CODES.down) {
+      e.preventDefault();
+      return this.state.suggestions.length > 0 && this.scroll(e.which);
+    }
   }
   onSelection(suggestion) {
     this.setState({value: suggestion});
@@ -104,12 +112,8 @@ class SearchBar extends React.Component {
             value={this.state.value}
             placeholder={this.props.placeholder}
             onChange={this.onChange.bind(this)}
-            onKeyDown={(e) => {
-              (e.which == KEY_CODES.up || e.which == KEY_CODES.down) &&
-              this.state.suggestions &&
-              this.onKeyDown(e);
-            }}
             onBlur={() => this.setState({isFocused: false, suggestions: []})}
+            onKeyDown={this.onKeyDown.bind(this)}
             onFocus={() => this.setState({isFocused: true})} />
             { this.state.value &&
               <span
