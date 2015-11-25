@@ -98,7 +98,8 @@ class SearchBar extends React.Component {
       <div className="search-bar-wrapper">
         <div className={classNames(
           "search-bar-field",
-          {"is-focused": this.state.isFocused}
+          {"is-focused": this.state.isFocused},
+          {"has-suggestions": this.state.suggestions.length > 0}
         )}>
           <input
             className="search-bar-input"
@@ -117,7 +118,7 @@ class SearchBar extends React.Component {
             onFocus={() => this.setState({isFocused: true})} />
             { this.state.value &&
               <span
-                className="icon search-bar-cancel"
+                className="icon search-bar-clear"
                 onClick={() => this.setState(this._initialState)}>
               </span> }
           <input
