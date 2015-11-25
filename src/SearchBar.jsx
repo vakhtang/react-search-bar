@@ -49,7 +49,7 @@ class SearchBar extends React.Component {
     this.refs.input.blur();
     let {highlightedItem, suggestions} = this._initialState;
     this.setState({highlightedItem, suggestions});
-    this.props.onSubmit(value);
+    this.props.onSubmit && this.props.onSubmit(value);
   }
   onChange(e) {
     clearTimeout(this._timerId);
@@ -123,7 +123,7 @@ class SearchBar extends React.Component {
           <input
             className="icon search-bar-submit"
             type="submit"
-            onClick={this.props.onSubmit && this.onSubmit.bind(this)} />
+            onClick={this.onSubmit.bind(this)} />
         </div>
         { this.state.suggestions.length > 0 &&
           <Suggestions
