@@ -36,10 +36,10 @@ const App = React.createClass({
   render() {
     return (
       <form>
-        <SearchBar
-          placeholder="search 'mac'"
-          onChange={this.onChange}
-          onSubmit={this.onSubmit} />
+      <SearchBar
+        placeholder="search 'mac'"
+        onChange={this.onChange}
+        onSubmit={this.onSubmit} />
       </form>
     );
   }
