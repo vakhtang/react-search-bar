@@ -124,6 +124,7 @@ class SearchBar extends React.Component {
           <input
             className="icon search-bar-submit"
             type="submit"
+            value=""
             onClick={this.onSubmit.bind(this)} />
         </div>
         { this.state.suggestions.length > 0 &&
