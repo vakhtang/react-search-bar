@@ -27,13 +27,14 @@ Then visit [localhost:5000](http://localhost:5000).
 
 ```js
 <SearchBar
-  onChange={(input, resolve) => {
-    // get suggestions based on `input`, then pass them to `resolve()`
+  onChange={(searchTerm, resolve) => {
+    // get suggestions asynchronously based on `searchTerm`,
+    // then pass them to `resolve()` to populate suggestions
+  }}
+  onSearch={(searchTerm) => {
+    // do something on search
   }} />
 ```
-
-You must supply a callback to the `onChange` event handler to populate
-suggestions. A callback to the `onSubmit` event handler is optional.
 
 ## Props
 
@@ -44,7 +45,7 @@ type: `boolean`
 indicates whether the component should take focus on
 page load
 
-### debounceDelay
+### delay
 
 type: `number`
 
@@ -63,11 +64,12 @@ type: `function`
 
 callback that executes on input and populates suggestions
 
-### onSubmit
+### onSearch
 
 type: `function`
 
-callback that executes on search submit (overrides default form submit)
+callback that executes on search, triggered either by selecting a suggestion
+or clicking the submit button
 
 ### placeholder
 

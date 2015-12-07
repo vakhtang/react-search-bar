@@ -64,7 +64,8 @@ input {
   background-image: url(../img/search.svg);
   background-size: 35%;
   border: 1px solid #ddd;
-  border-radius: 0;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
   padding: 0 20px;
   opacity: .8;
   width: 40px;

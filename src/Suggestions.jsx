@@ -9,26 +9,26 @@ class Suggestions extends React.Component {
     };
   }
   onTouchStart(index) {
-    this._timerId = setTimeout(() => {
+    this.timer = setTimeout(() => {
       this.setState({activeItem: index});
     }, 200);
   }
   onTouchMove() {
-    clearTimeout(this._timerId);
-    this._touchMoved = true;
+    clearTimeout(this.timer);
+    this.touchedMoved = true;
     this.setState({activeItem: -1});
   }
   onTouchEnd(suggestion) {
-    if (!this._touchMoved) {
+    if (!this.touchedMoved) {
       setTimeout(() => {
         this.props.onSelection(suggestion);
       }, 220);
     }
-    this._touchMoved = false;
+    this.touchedMoved = false;
   }
   render() {
-    let {highlightedItem, searchTerm, suggestions} = this.props;
-    let {activeItem} = this.state;
+    const {highlightedItem, searchTerm, suggestions} = this.props;
+    const {activeItem} = this.state;
     return (
       <ul
         className="search-bar-suggestions"
@@ -36,7 +36,7 @@ class Suggestions extends React.Component {
         {suggestions.map((suggestion, index) =>
           <li
             className={classNames({
-              highlighted: highlightedItem == index || activeItem == index
+              highlighted: highlightedItem === index || activeItem === index
             })}
             key={index}
             onClick={() => this.props.onSelection(suggestion)}
@@ -57,15 +57,9 @@ class Suggestions extends React.Component {
 }
 
 Suggestions.propTypes = {
-  highlightedItem: React.PropTypes.number.isRequired,
+  highlightedItem: React.PropTypes.number,
   searchTerm: React.PropTypes.string.isRequired,
   suggestions: React.PropTypes.array.isRequired
-};
-
-Suggestions.defaultProps = {
-  highlightedItem: -1,
-  searchTerm: '',
-  suggestions: []
 };
 
 export default Suggestions;

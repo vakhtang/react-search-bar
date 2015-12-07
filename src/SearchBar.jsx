@@ -14,7 +14,7 @@ class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     if (!props.onChange) {
-      throw Error('You must supply a callback to `onChange`.');
+      throw new Error('You must supply a callback to `onChange`.');
     }
     this.state = this.initialState = {
       highlightedItem: -1,
@@ -27,6 +27,9 @@ class SearchBar extends React.Component {
     if (this.props.autoFocus) {
       this.refs.input.focus();
     }
+  }
+  normalizeInput() {
+    return this.state.value.toLowerCase().trim();
   }
   autosuggest() {
     const searchTerm = this.normalizeInput();
@@ -42,31 +45,14 @@ class SearchBar extends React.Component {
       });
     });
   }
-  hasSuggestions() {
-    return this.state.suggestions.length > 0;
-  }
-  normalizeInput() {
-    return this.state.value.toLowerCase().trim();
-  }
-  search() {
-    const value = this.normalizeInput();
-    if (!value) return;
-    clearTimeout(this.timer);
-    this.refs.input.blur();
-    const {highlightedItem, suggestions} = this.initialState;
-    this.setState({highlightedItem, suggestions});
-    if (this.props.onSubmit) {
-      this.props.onSubmit(value);
-    }
-  }
   scroll(key) {
     const {highlightedItem: item, suggestions} = this.state;
     const lastItem = suggestions.length - 1;
 
-    if (key == keyCodes.UP) {
+    if (key === keyCodes.UP) {
       var nextItem = (item <= 0) ? lastItem : item - 1;
     } else {
-      var nextItem = (item == lastItem) ? 0 : item + 1;
+      var nextItem = (item === lastItem) ? 0 : item + 1;
     }
 
     this.setState({
@@ -74,22 +60,31 @@ class SearchBar extends React.Component {
       value: suggestions[nextItem]
     });
   }
+  search() {
+    if (!this.state.value) return;
+    const value = this.normalizeInput();
+    clearTimeout(this.timer);
+    this.refs.input.blur();
+    const {highlightedItem, suggestions} = this.initialState;
+    this.setState({highlightedItem, suggestions});
+    if (this.props.onSearch) {
+      this.props.onSearch(value);
+    }
+  }
   onChange(e) {
     clearTimeout(this.timer);
     const input = e.target.value;
     if (!input) return this.setState(this.initialState);
     this.setState({value: input});
-    this.timer = setTimeout(() => {
-      this.autosuggest();
-    }, this.props.debounceDelay);
+    this.timer = setTimeout(() => this.autosuggest(), this.props.delay);
   }
   onKeyDown(e) {
-    switch (e.keyCode || e.which) {
+    const key = e.which || e.keyCode;
+    switch (key) {
       case keyCodes.UP:
       case keyCodes.DOWN:
         e.preventDefault();
-        if (!this.hasSuggestions()) break;
-        this.scroll(e.which);
+        this.scroll(key);
         break;
 
       case keyCodes.ENTER:
@@ -102,10 +97,9 @@ class SearchBar extends React.Component {
     }
   }
   onSelection(suggestion) {
-    this.setState({value: suggestion});
-    this.search(suggestion);
+    this.setState({value: suggestion}, () => this.search());
   }
-  onSubmit(e) {
+  onSearch(e) {
     e.preventDefault();
     this.search();
   }
@@ -115,7 +109,7 @@ class SearchBar extends React.Component {
         <div className={classNames(
           "search-bar-field",
           {"is-focused": this.state.isFocused},
-          {"has-suggestions": this.hasSuggestions()}
+          {"has-suggestions": this.state.suggestions.length > 0}
         )}>
           <input
             className="search-bar-input"
@@ -130,7 +124,7 @@ class SearchBar extends React.Component {
             placeholder={this.props.placeholder}
             onChange={this.onChange.bind(this)}
             onBlur={() => this.setState({isFocused: false, suggestions: []})}
-            onKeyDown={this.onKeyDown.bind(this)}
+            onKeyDown={this.state.suggestions && this.onKeyDown.bind(this)}
             onFocus={() => this.setState({isFocused: true})} />
             { this.state.value &&
               <span
@@ -140,9 +134,9 @@ class SearchBar extends React.Component {
           <input
             className="icon search-bar-submit"
             type="submit"
-            onClick={this.onSubmit.bind(this)} />
+            onClick={this.onSearch.bind(this)} />
         </div>
-        { this.hasSuggestions() &&
+        { this.state.suggestions.length > 0 &&
           <Suggestions
             searchTerm={this.state.searchTerm}
             suggestions={this.state.suggestions}
@@ -155,17 +149,16 @@ class SearchBar extends React.Component {
 
 SearchBar.propTypes = {
   autoFocus: React.PropTypes.bool,
-  debounceDelay: React.PropTypes.number,
+  delay: React.PropTypes.number,
   inputName: React.PropTypes.string,
   onChange: React.PropTypes.func.isRequired,
-  onSubmit: React.PropTypes.func,
+  onSearch: React.PropTypes.func,
   placeholder: React.PropTypes.string
 };
 
 SearchBar.defaultProps = {
   autoFocus: true,
-  debounceDelay: 100,
-  inputName: 'query'
+  delay: 200
 };
 
 export default SearchBar;
