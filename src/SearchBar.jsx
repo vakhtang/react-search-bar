@@ -1,7 +1,7 @@
 import 'es6-promise';
 import classNames from 'classnames';
 import React from 'react';
-import Suggestions from './Suggestions';
+import Suggestions from './Suggestions'; //eslint-disable-line no-unused-vars
 
 const keyCodes = {
   ENTER: 13,
@@ -48,11 +48,12 @@ class SearchBar extends React.Component {
   scroll(key) {
     const {highlightedItem: item, suggestions} = this.state;
     const lastItem = suggestions.length - 1;
+    let nextItem;
 
     if (key === keyCodes.UP) {
-      var nextItem = (item <= 0) ? lastItem : item - 1;
+      nextItem = (item <= 0) ? lastItem : item - 1;
     } else {
-      var nextItem = (item === lastItem) ? 0 : item + 1;
+      nextItem = (item === lastItem) ? 0 : item + 1;
     }
 
     this.setState({
@@ -104,12 +105,13 @@ class SearchBar extends React.Component {
     this.search();
   }
   render() {
+    /*eslint-disable quotes*/
     return (
       <div className="search-bar-wrapper">
         <div className={classNames(
-          "search-bar-field",
-          {"is-focused": this.state.isFocused},
-          {"has-suggestions": this.state.suggestions.length > 0}
+          'search-bar-field',
+          {'is-focused': this.state.isFocused},
+          {'has-suggestions': this.state.suggestions.length > 0}
         )}>
           <input
             className="search-bar-input"
@@ -145,6 +147,7 @@ class SearchBar extends React.Component {
       </div>
     );
   }
+  /*eslint-enable quotes*/
 }
 
 SearchBar.propTypes = {

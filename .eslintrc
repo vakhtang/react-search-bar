@@ -1,27 +1,9 @@
-rules:
-  indent:
-    - 2
-    - 2
-  quotes:
-    - 2
-    - single
-  linebreak-style:
-    - 2
-    - unix
-  semi:
-    - 2
-    - always
-
-env:
-  es6: true
-  browser: true
-
-extends: 'eslint:recommended'
-
-ecmaFeatures:
-  jsx: true
-  experimentalObjectRestSpread: true
-  modules: true
-
-plugins:
-  - react
+{
+  "extends": "airbnb/base",
+  "rules": {
+    "comma-dangle": 0,
+    "default-case": 0,
+    "object-curly-spacing": 0,
+    "spaced-comment": 0
+  }
+}
