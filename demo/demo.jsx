@@ -29,7 +29,7 @@ const App = React.createClass({
       ));
     }, 25);
   },
-  onSubmit(input) {
+  onSearch(input) {
     if (!input) return;
     console.info(`Searching "${input}"`);
   },
@@ -38,7 +38,7 @@ const App = React.createClass({
       <SearchBar
         placeholder="search 'mac'"
         onChange={this.onChange}
-        onSubmit={this.onSubmit} />
+        onSearch={this.onSearch} />
     );
   }
 });
