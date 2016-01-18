@@ -36,6 +36,16 @@ Then visit [localhost:5000](http://localhost:5000).
   }} />
 ```
 
+## Suggestion items
+### Can be simple array
+```
+['macbook', 'macbook air', 'macbook pro']
+```
+### Or they can be passed like an object with properties id and name
+```
+[{id: 1, name: "macbook"}, {id: 2, name: 'macbook air'}, {id: 3, name: 'macbook pro'}];
+```
+
 ## Props
 
 ### autoFocus

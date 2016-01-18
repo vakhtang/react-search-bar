@@ -20,7 +20,8 @@ class SearchBar extends React.Component {
       highlightedItem: -1,
       searchTerm: '',
       suggestions: [],
-      value: ''
+      value: '',
+      index: 0
     };
   }
   componentDidMount() {
@@ -69,7 +70,7 @@ class SearchBar extends React.Component {
     const {highlightedItem, suggestions} = this.initialState;
     this.setState({highlightedItem, suggestions});
     if (this.props.onSearch) {
-      this.props.onSearch(value);
+      this.props.onSearch(value, this.state.index);
     }
   }
   onChange(e) {
@@ -97,8 +98,8 @@ class SearchBar extends React.Component {
         break;
     }
   }
-  onSelection(suggestion) {
-    this.setState({value: suggestion}, () => this.search());
+  onSelection(suggestion, index) {
+    this.setState({value: suggestion, index: index}, () => this.search());
   }
   onSearch(e) {
     e.preventDefault();
