@@ -33,23 +33,31 @@ class Suggestions extends React.Component {
       <ul
         className="search-bar-suggestions"
         onMouseLeave={() => this.setState({activeItem: -1})}>
-        {suggestions.map((suggestion, index) =>
-          <li
-            className={classNames({
-              highlighted: highlightedItem === index || activeItem === index
-            })}
-            key={index}
-            onClick={() => this.props.onSelection(suggestion)}
-            onMouseEnter={() => this.setState({activeItem: index})}
-            onMouseDown={(e) => e.preventDefault()}
-            onTouchStart={() => this.onTouchStart(index)}
-            onTouchMove={() => this.onTouchMove()}
-            onTouchEnd={() => this.onTouchEnd(suggestion)}>
-            <span>
-              {searchTerm}
-              <strong>{suggestion.substr(searchTerm.length)}</strong>
-            </span>
-          </li>
+        {suggestions.map((suggestion, index) => {
+            if (typeof suggestion === 'object') {
+              index = suggestion.id;
+              suggestion = suggestion.name;
+            }
+
+            return (
+              <li
+              className={classNames({
+                highlighted: highlightedItem === index || activeItem === index
+              })}
+              key={index}
+              onClick={() => this.props.onSelection(suggestion, index)}
+              onMouseEnter={() => this.setState({activeItem: index})}
+              onMouseDown={(e) => e.preventDefault()}
+              onTouchStart={() => this.onTouchStart(index)}
+              onTouchMove={() => this.onTouchMove()}
+              onTouchEnd={() => this.onTouchEnd(suggestion, index)}>
+              <span>
+                {searchTerm}
+                <strong>{suggestion.substr(searchTerm.length)}</strong>
+              </span>
+              </li>
+            )
+          }
         )}
       </ul>
     );
