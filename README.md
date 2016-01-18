@@ -41,7 +41,7 @@ Then visit [localhost:5000](http://localhost:5000).
 ```
 ['macbook', 'macbook air', 'macbook pro']
 ```
-### Or it can be like an object with properties id and name
+### Or they can be passed like an object with properties id and name
 ```
 [{id: 1, name: "macbook"}, {id: 2, name: 'macbook air'}, {id: 3, name: 'macbook pro'}];
 ```
