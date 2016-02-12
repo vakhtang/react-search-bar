@@ -1,5 +1,5 @@
-var webpack = require('webpack');
-var config = require('./webpack.config');
+const webpack = require('webpack');
+const config = require('./webpack.config');
 
 config.entry.app.unshift('webpack/hot/dev-server');
 
