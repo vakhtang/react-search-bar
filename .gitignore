@@ -1,4 +1,3 @@
-lib/
 node_modules/
 npm-debug.log*
 demo/public/bundle.js
