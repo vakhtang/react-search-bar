@@ -31,19 +31,22 @@
     "url": "https://github.com/vakhtang/react-search-bar"
   },
   "devDependencies": {
-    "babel-loader": "^5.3.1",
+    "babel-loader": "^6.2.2",
     "eslint": "^1.10.3",
-    "eslint-config-airbnb": "^2.0.0",
+    "eslint-config-airbnb": "^5.0.0",
     "eslint-plugin-react": "^3.11.3",
-    "webpack": "^1.10.1",
-    "webpack-dev-server": "^1.10.1"
+    "webpack": "^1.12.13",
+    "webpack-dev-server": "^1.14.1"
   },
   "peerDependencies": {
-    "babel": "^5.6.23",
-    "babel-core": "^5.6.20",
-    "classnames": "^2.1.3",
+    "babel-cli": "^6.5.1",
+    "babel-core": "^6.5.1",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-polyfill": "^6.5.0",
+    "classnames": "^2.2.3",
     "es6-promise": "^3.0.2",
-    "react": "^0.14.0-rc1",
-    "react-dom": "^0.14.0-rc1"
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
   }
 }

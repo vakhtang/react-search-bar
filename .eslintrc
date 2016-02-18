@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb/base",
+  "extends": "./node_modules/eslint-config-airbnb/base.js",
   "rules": {
     "comma-dangle": 0,
     "default-case": 0,
