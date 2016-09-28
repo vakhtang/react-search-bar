@@ -33,24 +33,37 @@ class Suggestions extends React.Component {
       <ul
         className="search-bar-suggestions"
         onMouseLeave={() => this.setState({activeItem: -1})}>
-        {suggestions.map((suggestion, index) =>
-          <li
-            className={classNames({
-              highlighted: highlightedItem === index || activeItem === index
-            })}
-            key={index}
-            onClick={() => this.props.onSelection(suggestion)}
-            onMouseEnter={() => this.setState({activeItem: index})}
-            onMouseDown={(e) => e.preventDefault()}
-            onTouchStart={() => this.onTouchStart(index)}
-            onTouchMove={() => this.onTouchMove()}
-            onTouchEnd={() => this.onTouchEnd(suggestion)}>
-            <span>
-              {searchTerm}
-              <strong>{suggestion.substr(searchTerm.length)}</strong>
-            </span>
-          </li>
-        )}
+        {suggestions.map((suggestion, index) => {
+          const lowerSearchTerm = searchTerm.toLowerCase()
+          const lowerSuggestion = suggestion.toLowerCase();
+          const searchTermStartIndex = lowerSuggestion.indexOf(lowerSearchTerm);
+          const searchTermEndIndex = searchTermStartIndex + lowerSearchTerm.length;
+          const leftSuggestionFragment = suggestion.substring(0, searchTermStartIndex);
+          const rightSuggestionFragment = suggestion.substring(searchTermEndIndex);
+          return (
+            <li
+              className={classNames({
+                highlighted: highlightedItem === index || activeItem === index
+              })}
+              key={index}
+              onClick={() => this.props.onSelection(suggestion)}
+              onMouseEnter={() => this.setState({activeItem: index})}
+              onMouseDown={(e) => e.preventDefault()}
+              onTouchStart={() => this.onTouchStart(index)}
+              onTouchMove={() => this.onTouchMove()}
+              onTouchEnd={() => this.onTouchEnd(suggestion)}>
+              <span>
+                {leftSuggestionFragment !== '' &&
+                  <span>{leftSuggestionFragment}</span>
+                }
+                <strong>{searchTerm}</strong>
+                {rightSuggestionFragment !== '' &&
+                  <span>{rightSuggestionFragment}</span>
+                }
+              </span>
+            </li>
+          );
+        })}
       </ul>
     );
   }
