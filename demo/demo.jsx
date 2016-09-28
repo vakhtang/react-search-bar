@@ -3,30 +3,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SearchBar from '../src/SearchBar';
 
-const matches = {
-  'macbook a': [
-    'macbook air 13 case',
-    'macbook air 11 case',
-    'macbook air charger'
-  ],
-  'macbook p': [
-    'macbook pro 13 case',
-    'macbook pro 15 case',
-    'macbook pro charger'
-  ]
-};
+const suggestions = [
+  "Batman v Superman: Dawn of Justice",
+  "Superman Returns",
+  "Superman",
+  "Superman II",
+  "Superman III",
+  "Superman IV: The Quest for Peace",
+  "Superman/Batman: Apocalypse",
+  "Lois & Clark: The New Adventures of Superman",
+  "Superman/Batman: Public Enemies",
+  "Superman/Doomsday",
+];
 
 const App = React.createClass({
   onChange(input, resolve) {
     // Simulate AJAX request
     setTimeout(() => {
-      const suggestions = matches[Object.keys(matches).find((partial) => {
-        return input.match(new RegExp(partial), 'i');
-      })] || ['macbook', 'macbook air', 'macbook pro'];
-
-      resolve(suggestions.filter((suggestion) =>
-        suggestion.match(new RegExp('^' + input.replace(/\W\s/g, ''), 'i'))
-      ));
+      if (input.toLowerCase() === 'superman') {
+        resolve(suggestions);
+      }
     }, 25);
   },
   onSearch(input) {
@@ -36,7 +32,7 @@ const App = React.createClass({
   render() {
     return (
       <SearchBar
-        placeholder="search 'mac'"
+        placeholder="search 'superman'"
         onChange={this.onChange}
         onSearch={this.onSearch} />
     );
