@@ -54,11 +54,11 @@ class Suggestions extends React.Component {
               onTouchEnd={() => this.onTouchEnd(suggestion)}>
               <span>
                 {leftSuggestionFragment !== '' &&
-                  <span>{leftSuggestionFragment}</span>
+                  <strong>{leftSuggestionFragment}</strong>
                 }
-                <strong>{searchTerm}</strong>
+                <span>{searchTerm}</span>
                 {rightSuggestionFragment !== '' &&
-                  <span>{rightSuggestionFragment}</span>
+                  <strong>{rightSuggestionFragment}</strong>
                 }
               </span>
             </li>
