@@ -64,7 +64,7 @@ type: `function`
 
 callback that executes on input and populates suggestions
 
-### onSearch
+### onSubmit
 
 type: `function`
 
