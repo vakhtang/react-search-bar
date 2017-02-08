@@ -1,11 +1,11 @@
 {
   "name": "react-search-bar",
-  "version": "1.1.4",
+  "version": "2.0.0",
   "description": "search bar with autosuggest",
   "keywords": [
     "search",
+    "search bar",
     "autosuggest",
-    "autocomplete",
     "react",
     "react-component"
   ],
@@ -14,7 +14,7 @@
     "url": "https://github.com/vakhtang/react-search-bar/issues"
   },
   "license": "MIT",
-  "author": "vakhtang",
+  "author": "Vakhtang Sidamonidze <vakhtang@outlook.com>",
   "files": [
     "lib",
     "index.js"
@@ -22,28 +22,45 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src --out-dir lib",
-    "build-demo": "webpack -p",
-    "demo": "webpack-dev-server --config webpack.config.dev.js",
-    "lint": "eslint src/**"
+    "check": "npm run lint && npm test",
+    "lint": "eslint src/**",
+    "start": "webpack-dev-server",
+    "test": "mocha --require babel-register --recursive"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/vakhtang/react-search-bar"
   },
   "devDependencies": {
-    "babel-loader": "^5.3.1",
-    "eslint": "^1.10.3",
-    "eslint-config-airbnb": "^2.0.0",
-    "eslint-plugin-react": "^3.11.3",
-    "webpack": "^1.10.1",
-    "webpack-dev-server": "^1.10.1"
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "chai": "^3.5.0",
+    "css-loader": "^0.26.1",
+    "enzyme": "^2.7.1",
+    "eslint": "^3.15.0",
+    "eslint-plugin-react": "^6.9.0",
+    "json-loader": "^0.5.4",
+    "mocha": "^3.2.0",
+    "react-addons-test-utils": "^15.4.2",
+    "sinon": "^1.17.7",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^1.16.3"
   },
   "peerDependencies": {
-    "babel": "^5.6.23",
-    "babel-core": "^5.6.20",
-    "classnames": "^2.1.3",
-    "es6-promise": "^3.0.2",
-    "react": "^0.14.0-rc1",
-    "react-dom": "^0.14.0-rc1"
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "invariant": "^2.2.2",
+    "lodash.omit": "^4.5.0",
+    "react": "^15.4.2",
+    "react-autobind": "^1.0.6",
+    "react-dom": "^15.4.2"
   }
 }
