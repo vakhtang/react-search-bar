@@ -1,0 +1,75 @@
+{
+  "name": "react-search-bar",
+  "version": "2.2.0",
+  "description": "search bar with autosuggest",
+  "keywords": [
+    "search",
+    "search bar",
+    "autosuggest",
+    "react",
+    "react-component"
+  ],
+  "homepage": "https://github.com/vakhtang/react-search-bar",
+  "bugs": {
+    "url": "https://github.com/vakhtang/react-search-bar/issues"
+  },
+  "license": "MIT",
+  "author": "vakhtang@outlook.com",
+  "files": [
+    "lib",
+    "index.js"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "build-lib": "babel src --out-dir lib",
+    "build-demo": "webpack --config=demo/webpack.config.js -p",
+    "build": "concurrently 'npm run build-lib' 'npm run build-demo'",
+    "check": "npm run lint && npm run test",
+    "lint": "eslint src/**",
+    "start": "webpack-dev-server --config=demo/webpack.config.js --open",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vakhtang/react-search-bar"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-lodash": "^3.2.11",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "chai": "^4.1.1",
+    "concurrently": "^3.5.0",
+    "css-loader": "^0.28.4",
+    "enzyme": "^2.7.1",
+    "eslint": "^4.4.0",
+    "eslint-plugin-react": "^7.1.0",
+    "jest": "^21.1.0",
+    "prettier": "1.14.2",
+    "prop-types": "^15.5.10",
+    "react-dom": "^16.0.0",
+    "react-test-renderer": "^15.6.1",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.7",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.4.1"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "lodash": "^4.17.4",
+    "react": "^16.0.0",
+    "react-autobind": "^1.0.6",
+    "react-html-attributes": "^1.4.3"
+  },
+  "jest": {
+    "modulePaths": [
+      "./src"
+    ]
+  }
+}
