@@ -1,0 +1,7 @@
+.DS_Store
+coverage/
+dist/
+node_modules/
+demo/public/
+!demo/public/index.html
+npm-debug.log*

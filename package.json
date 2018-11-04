@@ -1,0 +1,73 @@
+{
+  "name": "react-search-bar",
+  "version": "2.2.0",
+  "description": "A general-purpose search bar, built in React",
+  "keywords": [
+    "search",
+    "search bar",
+    "autosuggest",
+    "react",
+    "react-component"
+  ],
+  "homepage": "https://github.com/vakhtang/react-search-bar",
+  "bugs": {
+    "url": "https://github.com/vakhtang/react-search-bar/issues"
+  },
+  "license": "MIT",
+  "author": "Viktor Sidamonidze",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "concurrently 'npm run build-dist' 'npm run build-demo'",
+    "build-dist": "rm -r dist/ && babel src/ -d dist/",
+    "build-demo": "webpack --config=demo/webpack.config.js --mode=production",
+    "check": "concurrently 'npm run lint' 'npm run test'",
+    "lint": "eslint src/**",
+    "prettier": "prettier --write src/**/* demo/* test/**/*",
+    "start": "webpack serve --config=demo/webpack.config.js --open",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vakhtang/react-search-bar"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.2",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "babel-loader": "^8.2.3",
+    "concurrently": "^7.0.0",
+    "css-loader": "^6.6.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "eslint": "^8.10.0",
+    "eslint-plugin-react": "^7.1.0",
+    "jest": "^27.5.1",
+    "prettier": "1.14.2",
+    "prop-types": "^15.5.10",
+    "react-dom": "^16.0.0",
+    "react-test-renderer": "^17.0.2",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.69.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "lodash.debounce": "^4.0.8",
+    "react": "^16.0.0"
+  },
+  "jest": {
+    "modulePaths": [
+      "<rootDir>/src"
+    ],
+    "setupFiles": [
+      "<rootDir>/test/jest.setup.js"
+    ],
+    "testEnvironment": "jsdom"
+  }
+}
