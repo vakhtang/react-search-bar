@@ -19,7 +19,7 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
-        test: /\.css$/i,
+        test: /\.(scss|css)$/i,
         use: [
           'style-loader',
           {
@@ -29,7 +29,8 @@ module.exports = {
                 exportLocalsConvention: 'camelCase'
               }
             }
-          }
+          },
+          'sass-loader'
         ]
       },
       {

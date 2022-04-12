@@ -8,16 +8,9 @@ A general-purpose search bar, built in React. View the [demo](https://vakhtang.g
 
 ## Getting Started
 
-To run the dev server:
-
 ```sh
-npm start
-```
-
-To run tests and lint:
-
-```sh
-npm run check
+$ npm install
+$ npm start
 ```
 
 ## License

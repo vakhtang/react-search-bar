@@ -26,7 +26,7 @@ class Item extends Component {
   };
 
   render() {
-    const { props } = this;
+    let { props } = this;
 
     return (
       <li

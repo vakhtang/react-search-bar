@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import SearchBar from '../src';
-import styles from './demo.css';
-import words from './words.json';
+import styles from './demo.scss';
+import movies from './movies.json';
 
 class App extends Component {
   constructor(props) {
@@ -12,8 +12,13 @@ class App extends Component {
       items: []
     };
 
+    this.movies = movies.sort();
+
     this.inputAttributes = {
-      placeholder: 'select an SAT word'
+      autoCapitalize: 'off',
+      autoComplete: 'off',
+      spellCheck: 'false',
+      placeholder: "search AFI's Top 100 movies"
     };
   }
 
@@ -25,7 +30,7 @@ class App extends Component {
 
   onChange = async input => {
     this.setState({
-      items: words.filter(word => word.startsWith(input))
+      items: this.movies.filter(title => title.toLowerCase().includes(input))
     });
   };
 
@@ -34,15 +39,6 @@ class App extends Component {
       console.info(`Selected '${value}'`);
     }
   };
-
-  itemRenderer(item, searchTerm) {
-    return (
-      <span>
-        <span>{searchTerm}</span>
-        <strong>{item.substr(searchTerm.length)}</strong>
-      </span>
-    );
-  }
 
   render() {
     return (
@@ -53,7 +49,6 @@ class App extends Component {
         onClear={this.onClear}
         onSelect={this.onSelect}
         items={this.state.items}
-        itemRenderer={this.itemRenderer}
         styles={styles}
       />
     );

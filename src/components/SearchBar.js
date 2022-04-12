@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import debounce from 'lodash.debounce';
-import ItemList from './item-list';
+import ItemList from './ItemList';
 import styles from './styles';
 
 class SearchBar extends Component {
@@ -19,9 +19,11 @@ class SearchBar extends Component {
   };
 
   static defaultProps = {
-    autoCapitalize: 'off',
-    autoComplete: 'off',
-    autoCorrect: 'off',
+    inputAttributes: {
+      autoCapitalize: 'off',
+      autoComplete: 'off',
+      autoCorrect: 'off'
+    },
     autoFocus: false,
     delay: 0,
     maxLength: 100,
@@ -65,10 +67,9 @@ class SearchBar extends Component {
   };
 
   setFocusedItem(event) {
-    const { focusedItemIndex, searchTerm } = this.state;
-    const { items } = this.props;
-
-    const nextIndex = this.getNextItemIndex(event.key, focusedItemIndex);
+    let { focusedItemIndex, searchTerm } = this.state;
+    let { items } = this.props;
+    let nextIndex = this.getNextItemIndex(event.key, focusedItemIndex);
 
     this.setState({
       focusedItemIndex: nextIndex,
@@ -77,7 +78,7 @@ class SearchBar extends Component {
   }
 
   getNextItemIndex(eventKey, current) {
-    const last = this.props.items.length - 1;
+    let last = this.props.items.length - 1;
     let next = null;
 
     if (eventKey === 'ArrowDown' && current !== last) {
@@ -115,8 +116,8 @@ class SearchBar extends Component {
   };
 
   onChange = event => {
-    const { value } = event.target;
-    const searchTerm = value.toLowerCase().trim();
+    let { value } = event.target;
+    let searchTerm = value.toLowerCase().trim();
 
     if (!value) {
       this.clearInput();
@@ -193,17 +194,22 @@ class SearchBar extends Component {
   };
 
   render() {
-    const { props, state } = this;
+    let { props, state } = this;
 
     return (
       <div className={props.styles.container} ref={this.containerRef}>
-        <div className={props.styles.inputContainer}>
+        <div
+          className={classNames({
+            [props.styles.inputContainer]: true,
+            [props.styles.hasItems]: props.items.length > 0,
+            [props.styles.fieldFocused]: state.isFocused
+          })}
+        >
           <input
             {...this.props.inputAttributes}
             className={classNames({
               [props.styles.input]: true,
-              [props.styles.fieldFocused]: state.isFocused,
-              [props.styles.hasItems]: props.items.length > 0
+              [props.styles.fieldFocused]: state.isFocused
             })}
             type="text"
             ref={this.inputRef}

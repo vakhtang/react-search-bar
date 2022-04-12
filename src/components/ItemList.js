@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import Item from './item';
+import Item from './Item';
 import styles from './styles';
 
 class ItemList extends Component {
@@ -16,25 +16,45 @@ class ItemList extends Component {
   };
 
   static defaultProps = {
+    maxItems: 10,
     styles: styles.itemList
   };
 
   constructor(props) {
     super(props);
+    this.state = {};
     this.listRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.setItemListHeight();
   }
 
   componentDidUpdate() {
     if (this.props.focusedItemIndex !== null) {
       this.scrollToItem();
     }
+
+    this.setItemListHeight();
+  }
+
+  setItemListHeight() {
+    let childNodes = this.listRef.current.childNodes;
+    let lastVisibleNode = childNodes[Math.min(childNodes.length, this.props.maxItems) - 1];
+    let listHeight = lastVisibleNode.offsetTop + lastVisibleNode.offsetHeight;
+
+    if (listHeight != this.state.listHeight) {
+      this.setState({
+        listHeight
+      });
+    }
   }
 
   scrollToItem() {
-    const focusedItem = this.focusedItemRef.current;
-    const list = this.listRef.current;
-    const itemListRect = list.getBoundingClientRect();
-    const focusedItemRect = focusedItem.getBoundingClientRect();
+    let focusedItem = this.focusedItemRef.current;
+    let list = this.listRef.current;
+    let itemListRect = list.getBoundingClientRect();
+    let focusedItemRect = focusedItem.getBoundingClientRect();
 
     if (focusedItemRect.bottom > itemListRect.bottom) {
       list.scrollTop = focusedItem.offsetTop - (list.offsetHeight - focusedItem.offsetHeight);
@@ -48,7 +68,7 @@ class ItemList extends Component {
   };
 
   onMouseMove = (event, index) => {
-    const { movementX, movementY } = event.nativeEvent;
+    let { movementX, movementY } = event.nativeEvent;
 
     if (movementX || movementY) {
       this.props.onItemHover(index);
@@ -60,8 +80,8 @@ class ItemList extends Component {
   };
 
   renderItem = (item, index) => {
-    const { props } = this;
-    const isFocused = props.focusedItemIndex === index;
+    let { props } = this;
+    let isFocused = props.focusedItemIndex === index;
 
     return (
       <Item
@@ -83,7 +103,12 @@ class ItemList extends Component {
 
   render() {
     return (
-      <ul className={this.props.styles.items} ref={this.listRef} onMouseLeave={this.onMouseLeave}>
+      <ul
+        className={this.props.styles.items}
+        ref={this.listRef}
+        onMouseLeave={this.onMouseLeave}
+        style={{ height: this.state.listHeight }}
+      >
         {this.props.items.map(this.renderItem)}
       </ul>
     );
