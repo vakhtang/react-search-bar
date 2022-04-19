@@ -9,6 +9,7 @@ class ItemList extends Component {
     focusedItemIndex: PropTypes.number,
     items: PropTypes.array.isRequired,
     itemRenderer: PropTypes.func,
+    maxVisibleItems: PropTypes.number,
     onItemHover: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     searchTerm: PropTypes.string.isRequired,
@@ -16,7 +17,7 @@ class ItemList extends Component {
   };
 
   static defaultProps = {
-    maxItems: 10,
+    maxVisibleItems: 10,
     styles: styles.itemList
   };
 
@@ -40,7 +41,7 @@ class ItemList extends Component {
 
   setItemListHeight() {
     let childNodes = this.listRef.current.childNodes;
-    let lastVisibleNode = childNodes[Math.min(childNodes.length, this.props.maxItems) - 1];
+    let lastVisibleNode = childNodes[Math.min(childNodes.length, this.props.maxVisibleItems) - 1];
     let listHeight = lastVisibleNode.offsetTop + lastVisibleNode.offsetHeight;
 
     if (listHeight != this.state.listHeight) {
