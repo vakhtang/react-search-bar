@@ -1,41 +1,41 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  mode: 'development',
-  entry: path.resolve(__dirname, 'demo.js'),
+  mode: "development",
+  entry: path.resolve(__dirname, "demo.js"),
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, "public"),
+    filename: "bundle.js"
   },
   devServer: {
-    static: './demo/public'
+    static: "./demo/public"
   },
-  devtool: 'inline-source-map',
+  devtool: "inline-source-map",
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: "babel-loader"
       },
       {
         test: /\.(scss|css)$/i,
         use: [
-          'style-loader',
+          "style-loader",
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               modules: {
-                exportLocalsConvention: 'camelCase'
+                exportLocalsConvention: "camelCase"
               }
             }
           },
-          'sass-loader'
+          "sass-loader"
         ]
       },
       {
         test: /\.svg$/,
-        type: 'asset/resource'
+        type: "asset/resource"
       }
     ]
   }

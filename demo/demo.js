@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import SearchBar from '../src';
-import styles from './demo.scss';
-import movies from './movies.json';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import SearchBar from "../src";
+import styles from "./demo.scss";
+import movies from "./movies.json";
 
 class App extends Component {
   constructor(props) {
@@ -15,9 +15,9 @@ class App extends Component {
     this.movies = movies.sort();
 
     this.inputAttributes = {
-      autoCapitalize: 'off',
-      autoComplete: 'off',
-      spellCheck: 'false',
+      autoCapitalize: "off",
+      autoComplete: "off",
+      spellCheck: "false",
       placeholder: "search AFI's Top 100 movies"
     };
   }
@@ -55,4 +55,4 @@ class App extends Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById("root"));

@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import classNames from 'classnames';
-import debounce from 'lodash.debounce';
-import ItemList from './ItemList';
-import styles from './styles';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import classNames from "classnames";
+import debounce from "lodash.debounce";
+import ItemList from "./ItemList";
+import styles from "./styles";
 
 class SearchBar extends Component {
   static propTypes = {
@@ -20,15 +20,15 @@ class SearchBar extends Component {
 
   static defaultProps = {
     inputAttributes: {
-      autoCapitalize: 'off',
-      autoComplete: 'off',
-      autoCorrect: 'off'
+      autoCapitalize: "off",
+      autoComplete: "off",
+      autoCorrect: "off"
     },
     autoFocus: false,
     delay: 0,
     maxLength: 100,
     styles,
-    placeholder: '',
+    placeholder: "",
     itemRenderer: item => <div>{item}</div>
   };
 
@@ -39,7 +39,7 @@ class SearchBar extends Component {
       focusedItemIndex: null,
       isFocused: false,
       searchTerm: null,
-      inputValue: ''
+      inputValue: ""
     };
 
     this.containerRef = React.createRef();
@@ -53,11 +53,11 @@ class SearchBar extends Component {
       this.inputRef.current.focus();
     }
 
-    document.addEventListener('click', this.onDocumentClick);
+    document.addEventListener("click", this.onDocumentClick);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.onDocumentClick);
+    document.removeEventListener("click", this.onDocumentClick);
   }
 
   onDocumentClick = event => {
@@ -81,9 +81,9 @@ class SearchBar extends Component {
     let last = this.props.items.length - 1;
     let next = null;
 
-    if (eventKey === 'ArrowDown' && current !== last) {
+    if (eventKey === "ArrowDown" && current !== last) {
       next = current == null ? 0 : current + 1;
-    } else if (eventKey === 'ArrowUp' && current !== 0) {
+    } else if (eventKey === "ArrowUp" && current !== 0) {
       next = current == null ? last : current - 1;
     }
 
@@ -94,7 +94,7 @@ class SearchBar extends Component {
     this.setState({
       focusedItemIndex: null,
       searchTerm: null,
-      inputValue: ''
+      inputValue: ""
     });
 
     this.inputRef.current.focus();
@@ -136,23 +136,23 @@ class SearchBar extends Component {
 
   onKeyDown = event => {
     switch (event.key) {
-      case 'ArrowUp':
-      case 'ArrowDown':
+      case "ArrowUp":
+      case "ArrowDown":
         if (this.props.items.length > 0) {
           event.preventDefault();
           this.setFocusedItem(event);
         }
         break;
 
-      case 'Backspace':
+      case "Backspace":
         this.onBackspace();
         break;
 
-      case 'Enter':
+      case "Enter":
         this.onSelect(this.state.inputValue);
         break;
 
-      case 'Escape':
+      case "Escape":
         this.onEscape();
         break;
     }
@@ -167,7 +167,7 @@ class SearchBar extends Component {
   onEscape = () => {
     this.setState({
       focusedItemIndex: null,
-      searchTerm: ''
+      searchTerm: ""
     });
 
     this.inputRef.current.blur();
