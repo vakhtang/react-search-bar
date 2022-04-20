@@ -1,8 +1,7 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
-
-import SearchBar from "components/search-bar";
-import ItemList from "components/item-list";
+import SearchBar from "components/SearchBar";
+import ItemList from "components/ItemList";
 
 const noop = () => {};
 
@@ -26,9 +25,7 @@ describe("<SearchBar />", () => {
   });
 
   it("should render items", () => {
-    const items = ["foo", "bar", "baz"];
-
-    const wrapper = mount(<SearchBar onChange={noop} onClear={noop} items={items} />);
+    let wrapper = mount(<SearchBar onChange={noop} onClear={noop} items={["foo", "bar", "baz"]} />);
 
     wrapper.setState({
       inputValue: "ba"
@@ -38,19 +35,18 @@ describe("<SearchBar />", () => {
       items: ["bar", "baz"]
     });
 
-    const node = wrapper.find(ItemList);
+    let node = wrapper.find(ItemList);
 
     expect(node.prop("items")).toEqual(["bar", "baz"]);
     expect(node.find("Item")).toHaveLength(2);
   });
 
   it("should get the next focused item index", () => {
-    const items = ["foo", "bar", "baz"];
-    const lastItemIndex = items.length - 1;
+    let items = ["foo", "bar", "baz"];
+    let lastItemIndex = items.length - 1;
 
-    const wrapper = mount(<SearchBar onChange={noop} onClear={noop} items={items} />);
-
-    const instance = wrapper.instance();
+    let wrapper = mount(<SearchBar onChange={noop} onClear={noop} items={items} />);
+    let instance = wrapper.instance();
 
     expect(instance.getNextItemIndex("ArrowDown", null)).toEqual(0);
     expect(instance.getNextItemIndex("ArrowDown", 0)).toEqual(1);

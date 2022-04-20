@@ -12,6 +12,7 @@ class SearchBar extends Component {
     inputAttributes: PropTypes.object,
     items: PropTypes.array.isRequired,
     itemRenderer: PropTypes.func,
+    maxVisibleItems: PropTypes.number,
     onChange: PropTypes.func.isRequired,
     onClear: PropTypes.func,
     onSelect: PropTypes.func,
@@ -27,6 +28,7 @@ class SearchBar extends Component {
     autoFocus: false,
     delay: 0,
     maxLength: 100,
+    maxVisibleItems: 8,
     styles,
     placeholder: "",
     itemRenderer: item => <div>{item}</div>
@@ -227,6 +229,7 @@ class SearchBar extends Component {
           props.items.length > 0 && (
             <ItemList
               focusedItemIndex={this.state.focusedItemIndex}
+              maxVisibleItems={this.props.maxVisibleItems}
               onSelect={this.onSelect}
               onItemHover={this.onHover}
               styles={props.styles}

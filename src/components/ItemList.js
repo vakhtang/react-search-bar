@@ -17,7 +17,6 @@ class ItemList extends Component {
   };
 
   static defaultProps = {
-    maxVisibleItems: 10,
     styles: styles.itemList
   };
 

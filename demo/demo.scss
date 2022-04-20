@@ -1,15 +1,23 @@
+$background-color: #fafafa;
 $border-color: #ddd;
 $border-color-active: #ccc;
 $border-radius: 5px;
 $font-size: 16px;
-$font-family: Menlo, monospace;
+$font-family: "LucidaSansTypewriter", Menlo, monospace;
 $item-highlight-color: #eee;
 $padding: 14px;
 
+@font-face {
+  src: url("font.ttf") format("truetype");
+  font-family: "LucidaSansTypewriter";
+  font-style: normal;
+  font-weight: normal;
+}
+
 body {
-  background-color: #fafafa;
+  background-color: $background-color;
   font: $font-size $font-family;
-  margin: 15px;
+  margin: 50px auto;
 }
 
 input {
@@ -19,7 +27,6 @@ input {
 
 .container {
   margin: 0 auto;
-  margin-top: 50px;
   width: 450px;
 }
 
@@ -40,7 +47,8 @@ input {
   position: relative;
 }
 
-.input-container.field--focused {
+.input-container.field--focused,
+.input-container.has-items {
   border-color: $border-color-active;
 }
 
@@ -75,6 +83,9 @@ input {
   padding: 0;
   position: relative;
   top: -1px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 
@@ -97,25 +108,10 @@ input {
 
 @media screen and (max-width: 768px) {
   body {
-    margin: 0;
+    margin: 25px;
   }
 
   .container {
-    margin: 0;
-    width: 100%;
-  }
-
-  .input,
-  .input.has-items,
-  .input-container {
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
-  }
-
-  .items {
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
+    width: auto;
   }
 }

@@ -17,6 +17,7 @@ class App extends Component {
     this.inputAttributes = {
       autoCapitalize: "off",
       autoComplete: "off",
+      autoCorrect: "off",
       spellCheck: "false",
       placeholder: "search AFI's Top 100 movies"
     };
