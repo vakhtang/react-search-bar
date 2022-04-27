@@ -4,32 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>React Search Bar Demo</title>
-  <style>  
-    #item1:active, #item2:active, #item3:active, * {
-      -webkit-tap-highlight-color: red;
-    }
-    #set {
-      display: flex;
-      flex-direction: column;
-    }
-    #item1, #item2, #item3 {
-      display: block;
-      width: 250px;
-    }
-  </style>
 </head>
 <body>
-  <div id="set">
-    <div id="item1"><a>Item 1</a></div>
-    <div id="item2"><a>Item 2</a></div>
-    <div id="item3"><a>Item 3</a></div>
-  </div>
   <div id="root">Something is broken (or JavaScript is disabled).</div>
   <script src="bundle.js"></script>
-  <script>
-    document.getElementById("item1").onclick = function() {}
-    document.getElementById("item2").onclick = function() {}
-    document.getElementById("item3").onclick = function() {}
-  </script>
 </body>
 </html>
