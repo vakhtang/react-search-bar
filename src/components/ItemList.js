@@ -57,7 +57,7 @@ class ItemList extends Component {
     let focusedItemRect = focusedItem.getBoundingClientRect();
 
     if (focusedItemRect.bottom > itemListRect.bottom) {
-      list.scrollTop = focusedItem.offsetTop - (list.offsetHeight - focusedItem.offsetHeight);
+      list.scrollTop = focusedItem.offsetTop - (list.clientHeight - focusedItem.offsetHeight);
     } else if (focusedItemRect.top < itemListRect.top) {
       list.scrollTop = focusedItem.offsetTop;
     }
