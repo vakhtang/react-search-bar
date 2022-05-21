@@ -1,86 +1,50 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import classNames from "classnames";
 import Item from "./Item";
 import styles from "./styles";
 
-class ItemList extends Component {
-  static propTypes = {
-    focusedItemIndex: PropTypes.number,
-    items: PropTypes.array.isRequired,
-    itemRenderer: PropTypes.func,
-    maxVisibleItems: PropTypes.number,
-    onItemHover: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
-    searchTerm: PropTypes.string.isRequired,
-    styles: PropTypes.object
-  };
+const ItemList = props => {
+  const listRef = React.createRef();
+  const [listHeight, setListHeight] = useState();
+  let focusedItemRef;
 
-  static defaultProps = {
-    styles: styles.itemList
-  };
+  useLayoutEffect(() => {
+    let childNodes = listRef.current.childNodes;
+    let lastNode = childNodes[Math.min(childNodes.length, props.maxVisibleItems) - 1];
+    setListHeight(lastNode.offsetTop + lastNode.offsetHeight);
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.listRef = React.createRef();
-  }
-
-  componentDidMount() {
-    this.setItemListHeight();
-  }
-
-  componentDidUpdate() {
-    if (this.props.focusedItemIndex !== null) {
-      this.scrollToItem();
+    if (focusedItemRef) {
+      adjustPartiallyVisibleItem();
     }
+  });
 
-    this.setItemListHeight();
-  }
-
-  setItemListHeight() {
-    let childNodes = this.listRef.current.childNodes;
-    let lastVisibleNode = childNodes[Math.min(childNodes.length, this.props.maxVisibleItems) - 1];
-    let listHeight = lastVisibleNode.offsetTop + lastVisibleNode.offsetHeight;
-
-    if (listHeight != this.state.listHeight) {
-      this.setState({
-        listHeight
-      });
-    }
-  }
-
-  scrollToItem() {
-    let focusedItem = this.focusedItemRef.current;
-    let list = this.listRef.current;
+  const adjustPartiallyVisibleItem = () => {
+    let focusedItem = focusedItemRef.current;
+    let list = listRef.current;
     let itemListRect = list.getBoundingClientRect();
     let focusedItemRect = focusedItem.getBoundingClientRect();
 
     if (focusedItemRect.bottom > itemListRect.bottom) {
-      list.scrollTop = focusedItem.offsetTop - (list.clientHeight - focusedItem.offsetHeight);
+      list.scrollTop += focusedItemRect.bottom - itemListRect.bottom;
     } else if (focusedItemRect.top < itemListRect.top) {
       list.scrollTop = focusedItem.offsetTop;
     }
-  }
-
-  setFocusedItem = ref => {
-    this.focusedItemRef = ref && ref.itemRef;
   };
 
-  onMouseMove = (event, index) => {
+  const onMouseMove = (event, index) => {
     let { movementX, movementY } = event.nativeEvent;
 
     if (movementX || movementY) {
-      this.props.onItemHover(index);
+      props.onItemHover(index);
     }
   };
 
-  onMouseLeave = () => {
-    this.props.onItemHover(null);
-  };
+  const onTouchStart = index => props.onItemHover(index);
 
-  renderItem = (item, index) => {
-    let { props } = this;
+  const onMouseLeave = () => props.onItemHover(null);
+
+  const renderItem = (item, index) => {
     let isFocused = props.focusedItemIndex === index;
 
     return (
@@ -94,25 +58,39 @@ class ItemList extends Component {
         itemRenderer={props.itemRenderer}
         key={item}
         onClick={props.onSelect}
-        onMouseMove={this.onMouseMove}
-        ref={isFocused && this.setFocusedItem}
+        onMouseMove={onMouseMove}
+        onTouchStart={onTouchStart.bind(null, index)}
+        ref={isFocused ? (focusedItemRef = React.createRef()) : null}
         searchTerm={props.searchTerm}
       />
     );
   };
 
-  render() {
-    return (
-      <ul
-        className={this.props.styles.items}
-        ref={this.listRef}
-        onMouseLeave={this.onMouseLeave}
-        style={{ height: this.state.listHeight }}
-      >
-        {this.props.items.map(this.renderItem)}
-      </ul>
-    );
-  }
-}
+  return (
+    <ul
+      className={props.styles.items}
+      ref={listRef}
+      onMouseLeave={onMouseLeave}
+      style={{ height: listHeight }}
+    >
+      {props.items.map(renderItem)}
+    </ul>
+  );
+};
+
+ItemList.propTypes = {
+  focusedItemIndex: PropTypes.number,
+  items: PropTypes.array.isRequired,
+  itemRenderer: PropTypes.func,
+  maxVisibleItems: PropTypes.number,
+  onItemHover: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string.isRequired,
+  styles: PropTypes.object
+};
+
+ItemList.defaultProps = {
+  styles: styles.itemList
+};
 
 export default ItemList;

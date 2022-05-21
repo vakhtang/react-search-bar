@@ -1,45 +1,40 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import React from "react";
 
-class Item extends Component {
-  static propTypes = {
-    className: PropTypes.string,
-    index: PropTypes.number.isRequired,
-    item: PropTypes.string.isRequired,
-    itemRenderer: PropTypes.func.isRequired,
-    onClick: PropTypes.func.isRequired,
-    onMouseMove: PropTypes.func.isRequired,
-    searchTerm: PropTypes.string
+const Item = React.forwardRef((props, ref) => {
+  const onClick = () => {
+    props.onClick(props.item);
   };
 
-  constructor(props) {
-    super(props);
-    this.itemRef = React.createRef();
-  }
-
-  onClick = () => {
-    this.props.onClick(this.props.item);
+  const onMouseMove = event => {
+    props.onMouseMove(event, props.index);
   };
 
-  onMouseMove = event => {
-    this.props.onMouseMove(event, this.props.index);
-  };
+  return (
+    <li
+      className={props.className}
+      key={props.item}
+      ref={ref}
+      onClick={onClick}
+      onMouseMove={onMouseMove}
+      onTouchStart={props.onTouchStart}
+    >
+      {props.itemRenderer(props.item, props.searchTerm)}
+    </li>
+  );
+});
 
-  render() {
-    let { props } = this;
+Item.propTypes = {
+  className: PropTypes.string,
+  index: PropTypes.number.isRequired,
+  item: PropTypes.string.isRequired,
+  itemRenderer: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onMouseMove: PropTypes.func.isRequired,
+  onTouchStart: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string
+};
 
-    return (
-      <li
-        className={props.className}
-        key={props.item}
-        ref={this.itemRef}
-        onClick={this.onClick}
-        onMouseMove={this.onMouseMove}
-      >
-        {props.itemRenderer(props.item, props.searchTerm)}
-      </li>
-    );
-  }
-}
+Item.displayName = "Item";
 
 export default Item;

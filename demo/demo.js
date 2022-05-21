@@ -1,59 +1,41 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import SearchBar from "../src";
-import styles from "./demo.scss";
+import styles from "./styles.scss";
 import movies from "./movies.json";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+const App = () => {
+  const [items, setItems] = useState([]);
 
-    this.state = {
-      items: []
-    };
+  const sortedMovies = movies.sort();
 
-    this.movies = movies.sort();
-
-    this.inputAttributes = {
-      autoCapitalize: "off",
-      autoComplete: "off",
-      autoCorrect: "off",
-      spellCheck: "false",
-      placeholder: "search AFI's Top 100 movies"
-    };
-  }
-
-  onClear = () => {
-    this.setState({
-      items: []
-    });
+  const inputAttributes = {
+    placeholder: "search AFI's Top 100 movies"
   };
 
-  onChange = async input => {
-    this.setState({
-      items: this.movies.filter(title => title.toLowerCase().includes(input))
-    });
+  const onClear = () => setItems([]);
+
+  const onChange = async input => {
+    setItems(sortedMovies.filter(title => title.toLowerCase().includes(input)));
   };
 
-  onSelect = value => {
+  const onSelect = value => {
     if (value) {
       console.info(`Selected '${value}'`);
     }
   };
 
-  render() {
-    return (
-      <SearchBar
-        autoFocus
-        inputAttributes={this.inputAttributes}
-        onChange={this.onChange}
-        onClear={this.onClear}
-        onSelect={this.onSelect}
-        items={this.state.items}
-        styles={styles}
-      />
-    );
-  }
-}
+  return (
+    <SearchBar
+      autoFocus
+      inputAttributes={inputAttributes}
+      onChange={onChange}
+      onClear={onClear}
+      onSelect={onSelect}
+      items={items}
+      styles={styles}
+    />
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById("root"));

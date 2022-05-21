@@ -1,86 +1,42 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
-import debounce from "lodash.debounce";
 import ItemList from "./ItemList";
 import styles from "./styles";
 
-class SearchBar extends Component {
-  static propTypes = {
-    autoFocus: PropTypes.bool,
-    delay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    inputAttributes: PropTypes.object,
-    items: PropTypes.array.isRequired,
-    itemRenderer: PropTypes.func,
-    maxVisibleItems: PropTypes.number,
-    onChange: PropTypes.func.isRequired,
-    onClear: PropTypes.func,
-    onSelect: PropTypes.func,
-    styles: PropTypes.object
-  };
+const SearchBar = props => {
+  const [focusedItemIndex, setFocusedItemIndex] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(null);
 
-  static defaultProps = {
-    inputAttributes: {
-      autoCapitalize: "off",
-      autoComplete: "off",
-      autoCorrect: "off"
-    },
-    autoFocus: false,
-    delay: 0,
-    maxLength: 100,
-    maxVisibleItems: 8,
-    styles,
-    placeholder: "",
-    itemRenderer: item => <div>{item}</div>
-  };
+  const containerRef = React.createRef();
+  const inputRef = React.createRef();
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      focusedItemIndex: null,
-      isFocused: false,
-      searchTerm: null,
-      inputValue: ""
-    };
-
-    this.containerRef = React.createRef();
-    this.inputRef = React.createRef();
-
-    this.onDebouncedChange = debounce(this.onDebouncedChange, props.delay);
-  }
-
-  componentDidMount() {
-    if (this.props.autoFocus) {
-      this.inputRef.current.focus();
+  useEffect(() => {
+    if (props.autoFocus) {
+      inputRef.current.focus();
     }
 
-    document.addEventListener("click", this.onDocumentClick);
-  }
+    document.addEventListener("click", onDocumentClick);
 
-  componentWillUnmount() {
-    document.removeEventListener("click", this.onDocumentClick);
-  }
+    return () => document.removeEventListener("click", onDocumentClick);
+  });
 
-  onDocumentClick = event => {
-    if (!this.containerRef.current.contains(event.target)) {
-      this.props.onClear();
+  const onDocumentClick = event => {
+    if (!containerRef.current.contains(event.target)) {
+      props.onClear();
     }
   };
 
-  setFocusedItem(event) {
-    let { focusedItemIndex, searchTerm } = this.state;
-    let { items } = this.props;
-    let nextIndex = this.getNextItemIndex(event.key, focusedItemIndex);
+  const setFocusedItem = event => {
+    let nextIndex = getNextItemIndex(event.key, focusedItemIndex);
+    setFocusedItemIndex(nextIndex);
+    setInputValue(props.items[nextIndex] || searchTerm);
+  };
 
-    this.setState({
-      focusedItemIndex: nextIndex,
-      inputValue: items[nextIndex] || searchTerm
-    });
-  }
-
-  getNextItemIndex(eventKey, current) {
-    let last = this.props.items.length - 1;
+  const getNextItemIndex = (eventKey, current) => {
+    let last = props.items.length - 1;
     let next = null;
 
     if (eventKey === "ArrowDown" && current !== last) {
@@ -90,157 +46,159 @@ class SearchBar extends Component {
     }
 
     return next;
-  }
-
-  clearInput = () => {
-    this.setState({
-      focusedItemIndex: null,
-      searchTerm: null,
-      inputValue: ""
-    });
-
-    this.inputRef.current.focus();
-    this.props.onClear();
   };
 
-  toggleFocus = () => {
-    this.setState({
-      isFocused: !this.state.isFocused
-    });
+  const clearInput = () => {
+    setFocusedItemIndex(null);
+    setSearchTerm(null);
+    setInputValue("");
+
+    inputRef.current.focus();
+    props.onClear();
   };
 
-  onDebouncedChange = searchTerm => {
-    this.setState({
-      searchTerm
-    });
+  const toggleFocus = () => setIsFocused(!isFocused);
 
-    this.props.onChange(searchTerm);
-  };
-
-  onChange = event => {
+  const onChange = event => {
     let { value } = event.target;
     let searchTerm = value.toLowerCase().trim();
 
     if (!value) {
-      this.clearInput();
+      clearInput();
       return;
     }
 
-    this.setState({
-      inputValue: value,
-      focusedItemIndex: null
-    });
+    setInputValue(value);
+    setFocusedItemIndex(null);
 
     if (searchTerm) {
-      this.onDebouncedChange(searchTerm);
+      setSearchTerm(searchTerm);
+      props.onChange(searchTerm);
     }
   };
 
-  onKeyDown = event => {
+  const onKeyDown = event => {
     switch (event.key) {
       case "ArrowUp":
       case "ArrowDown":
-        if (this.props.items.length > 0) {
+        if (props.items.length > 0) {
           event.preventDefault();
-          this.setFocusedItem(event);
+          setFocusedItem(event);
         }
         break;
 
       case "Backspace":
-        this.onBackspace();
+        onBackspace();
         break;
 
       case "Enter":
-        this.onSelect(this.state.inputValue);
+        onSelect(inputValue);
         break;
 
       case "Escape":
-        this.onEscape();
+        onEscape();
         break;
     }
   };
 
-  onBackspace = () => {
-    this.setState({
-      focusedItemIndex: null
-    });
+  const onBackspace = () => setFocusedItemIndex(null);
+
+  const onEscape = () => {
+    setFocusedItemIndex(null);
+    setSearchTerm("");
+
+    inputRef.current.blur();
+    props.onClear();
   };
 
-  onEscape = () => {
-    this.setState({
-      focusedItemIndex: null,
-      searchTerm: ""
-    });
+  const onHover = index => setFocusedItemIndex(index);
 
-    this.inputRef.current.blur();
-    this.props.onClear();
-  };
+  const onSelect = item => {
+    setInputValue(item);
+    setFocusedItemIndex(null);
 
-  onHover = current => {
-    this.setState({
-      focusedItemIndex: current
-    });
-  };
+    props.onClear();
 
-  onSelect = item => {
-    this.setState({
-      inputValue: item,
-      focusedItemIndex: null
-    });
-
-    this.props.onClear();
-
-    if (this.props.onSelect) {
-      this.props.onSelect(item);
+    if (props.onSelect) {
+      props.onSelect(item);
     }
   };
 
-  render() {
-    let { props, state } = this;
+  const inputAttributes = Object.assign(
+    {},
+    SearchBar.defaultProps.inputAttributes,
+    props.inputAttributes
+  );
 
-    return (
-      <div className={props.styles.container} ref={this.containerRef}>
-        <div
+  return (
+    <div className={props.styles.container} ref={containerRef}>
+      <div
+        className={classNames({
+          [props.styles.inputContainer]: true,
+          [props.styles.hasItems]: props.items.length > 0,
+          [props.styles.fieldFocused]: isFocused
+        })}
+      >
+        <input
+          {...inputAttributes}
           className={classNames({
-            [props.styles.inputContainer]: true,
-            [props.styles.hasItems]: props.items.length > 0,
-            [props.styles.fieldFocused]: state.isFocused
+            [props.styles.input]: true,
+            [props.styles.fieldFocused]: isFocused
           })}
-        >
-          <input
-            {...this.props.inputAttributes}
-            className={classNames({
-              [props.styles.input]: true,
-              [props.styles.fieldFocused]: state.isFocused
-            })}
-            type="text"
-            ref={this.inputRef}
-            value={state.inputValue}
-            onChange={this.onChange}
-            onFocus={this.toggleFocus}
-            onBlur={this.toggleFocus}
-            onKeyDown={props.items && this.onKeyDown}
-          />
-          {state.inputValue && (
-            <div className={props.styles.clearButton} onClick={this.clearInput} />
-          )}
-        </div>
-        {state.inputValue &&
-          props.items.length > 0 && (
-            <ItemList
-              focusedItemIndex={this.state.focusedItemIndex}
-              maxVisibleItems={this.props.maxVisibleItems}
-              onSelect={this.onSelect}
-              onItemHover={this.onHover}
-              styles={props.styles}
-              searchTerm={state.searchTerm}
-              items={this.props.items}
-              itemRenderer={this.props.itemRenderer}
-            />
-          )}
+          type="text"
+          ref={inputRef}
+          value={inputValue}
+          onChange={onChange}
+          onFocus={toggleFocus}
+          onBlur={toggleFocus}
+          onKeyDown={props.items && onKeyDown}
+        />
+        {inputValue && <div className={props.styles.clearButton} onClick={clearInput} />}
       </div>
-    );
-  }
-}
+      {inputValue &&
+        props.items.length > 0 && (
+          <ItemList
+            focusedItemIndex={focusedItemIndex}
+            items={props.items}
+            itemRenderer={props.itemRenderer}
+            maxVisibleItems={props.maxVisibleItems}
+            onSelect={onSelect}
+            onItemHover={onHover}
+            styles={props.styles}
+            searchTerm={searchTerm}
+          />
+        )}
+    </div>
+  );
+};
+
+SearchBar.propTypes = {
+  autoFocus: PropTypes.bool,
+  delay: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  inputAttributes: PropTypes.object,
+  items: PropTypes.array.isRequired,
+  itemRenderer: PropTypes.func,
+  maxVisibleItems: PropTypes.number,
+  onChange: PropTypes.func.isRequired,
+  onClear: PropTypes.func,
+  onSelect: PropTypes.func,
+  styles: PropTypes.object
+};
+
+SearchBar.defaultProps = {
+  inputAttributes: {
+    autoCapitalize: "off",
+    autoComplete: "off",
+    autoCorrect: "off",
+    spellCheck: "off"
+  },
+  autoFocus: false,
+  delay: 0,
+  maxLength: 100,
+  maxVisibleItems: 8,
+  styles,
+  placeholder: "",
+  itemRenderer: item => <span>{item}</span>
+};
 
 export default SearchBar;
