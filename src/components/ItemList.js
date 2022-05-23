@@ -28,7 +28,7 @@ const ItemList = props => {
     if (focusedItemRect.bottom > itemListRect.bottom) {
       list.scrollTop += focusedItemRect.bottom - itemListRect.bottom;
     } else if (focusedItemRect.top < itemListRect.top) {
-      list.scrollTop = focusedItem.offsetTop;
+      list.scrollTop -= itemListRect.top - focusedItemRect.top;
     }
   };
 

@@ -7,8 +7,6 @@ import movies from "./movies.json";
 const App = () => {
   const [items, setItems] = useState([]);
 
-  const sortedMovies = movies.sort();
-
   const inputAttributes = {
     placeholder: "search AFI's Top 100 movies"
   };
@@ -16,7 +14,7 @@ const App = () => {
   const onClear = () => setItems([]);
 
   const onChange = async input => {
-    setItems(sortedMovies.filter(title => title.toLowerCase().includes(input)));
+    setItems(movies.filter(title => title.toLowerCase().includes(input)));
   };
 
   const onSelect = value => {
